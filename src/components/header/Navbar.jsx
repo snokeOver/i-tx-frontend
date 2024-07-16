@@ -6,7 +6,7 @@ import ThemeButton from "./ThemeButton";
 import useData from "../../hooks/useData";
 import useAuth from "../../hooks/useAuth";
 import useSweetAlert from "../../hooks/useSweetAlert";
-
+import { TbCurrencyTaka } from "react-icons/tb";
 import RingLoading from "../shared/RingLoading";
 import { FaMoneyBillTransfer } from "react-icons/fa6";
 import { useEffect } from "react";
@@ -157,11 +157,14 @@ const Navbar = () => {
                 className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
               >
                 <div className="flex flex-col gap-1 text-xs ml-3">
-                  <h3> {userDetails.name}</h3>
-                  <h3 className="mt-1">
-                    {" "}
-                    {userDetails.email || "<Private_Email>"}
+                  <h3 className="flex gap-1 items-center">
+                    <span>
+                      <TbCurrencyTaka />
+                    </span>
+                    <span className="text-prime">{userDetails.balance}</span>
                   </h3>
+                  <h3> {userDetails.name}</h3>
+                  <h3 className="mt-1">{userDetails.email}</h3>
                 </div>
                 <div className="divider my-1"></div>
                 {/* Profile link */}

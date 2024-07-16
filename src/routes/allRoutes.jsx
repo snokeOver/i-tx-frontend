@@ -14,6 +14,7 @@ import UserStatistics from "../components/dashboard/user/UserStatistics";
 import AdminDashboardLayout from "../layouts/AdminDashboardLayout";
 import ManageUsers from "../components/dashboard/admin/ManageUsers";
 import MonitorAllTx from "../components/dashboard/admin/MonitorAllTx";
+import CashOut from "../components/dashboard/user/CashOut";
 // import PrivateRoute from "./PrivateRoute";
 // import ParticipatedSurveys from "../components/dashboard/user/ParticipatedSurveys";
 // import ReportedSurveys from "../components/dashboard/user/ReportedSurveys";
@@ -80,21 +81,21 @@ const router = createBrowserRouter([
         element: <UserStatistics />,
       },
       {
-        path: "Send Money",
-        element: <UserStatistics />,
+        path: "cash-out",
+        element: <CashOut />,
       },
       {
-        path: "Cash In",
-        element: <UserStatistics />,
+        path: "cash-in",
+        element: <CashOut />,
       },
 
       {
-        path: "Cash Out",
-        element: <UserStatistics />,
+        path: "send-money",
+        element: <CashOut />,
       },
       {
-        path: "Transaction",
-        element: <UserStatistics />,
+        path: "tx-history",
+        element: <CashOut />,
       },
     ],
   },

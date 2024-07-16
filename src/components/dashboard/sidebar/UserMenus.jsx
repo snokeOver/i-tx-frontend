@@ -1,31 +1,46 @@
 import DynamicNavLinks from "./DynamicNavLinks";
 import { BsGraphUp } from "react-icons/bs";
 
-import { FcSurvey } from "react-icons/fc";
-import { TbFileReport } from "react-icons/tb";
+import { LuHistory } from "react-icons/lu";
+import { FaLongArrowAltRight, FaLongArrowAltLeft } from "react-icons/fa";
+import { FaArrowRightArrowLeft } from "react-icons/fa6";
 
 const UserMenus = () => {
   return (
     <>
       {/* Statistics */}
       <DynamicNavLinks
-        address="/dashboard/user"
+        address="/dashboard"
         name="User Statistics"
         icon={BsGraphUp}
       />
 
-      {/* Participated Surveys */}
+      {/* Cash Out */}
       <DynamicNavLinks
-        address="/dashboard/user/surveys"
-        name="Participated Surveys"
-        icon={FcSurvey}
+        address="/dashboard/cash-out"
+        name="Cash Out"
+        icon={FaArrowRightArrowLeft}
       />
 
-      {/* Reported Surveys */}
+      {/* Cash In */}
       <DynamicNavLinks
-        address="/dashboard/user/my-reports"
-        name="Reported Surveys"
-        icon={TbFileReport}
+        address="/dashboard/cash-in"
+        name="Cash In"
+        icon={FaLongArrowAltLeft}
+      />
+
+      {/* Send Money */}
+      <DynamicNavLinks
+        address="/dashboard/send-money"
+        name="Send Money"
+        icon={FaLongArrowAltRight}
+      />
+
+      {/*Transactions */}
+      <DynamicNavLinks
+        address="/dashboard/tx-history"
+        name="Transactions"
+        icon={LuHistory}
       />
     </>
   );

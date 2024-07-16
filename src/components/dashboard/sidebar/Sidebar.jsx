@@ -1,43 +1,22 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { FcSettings } from "react-icons/fc";
 import { AiOutlineBars } from "react-icons/ai";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import useAuth from "../../../hooks/useAuth";
 import UserMenus from "./UserMenus";
-import ProUserMenus from "./ProUserMenus";
-import SurveyorMenus from "./SurveyorMenus";
+
 import AdminMenus from "./AdminMenus";
-import UserToggleButton from "../shared/UserToggleButton";
-import useData from "../../../hooks/useData";
+import AgentMenus from "./AgentMenus";
 
 const Sidebar = () => {
   const [isActive, setActive] = useState(false);
   const { userDetails } = useAuth();
-  const { toggle, setToggle } = useData();
-  const userRole = userDetails?.userRole;
 
-  const navigate = useNavigate();
+  const userRole = userDetails?.userRole;
 
   const handleToggle = () => {
     setActive(!isActive);
   };
-
-  const toggleHandler = (e) => {
-    setToggle(e.target.checked);
-  };
-
-  // Condition for User and try to hit the Surveyor button
-  useEffect(() => {
-    if (userRole === "User") {
-      navigate(toggle ? "/dashboard/request" : "/dashboard");
-    } else if (userRole === "Agent") {
-      navigate(toggle ? "/dashboard/agent" : "/dashboard");
-    } else if (userRole === "Admin") {
-      navigate("/dashboard/admin");
-    } else {
-      navigate("/dashboard");
-    }
-  }, [toggle, userRole]);
 
   return (
     <>
@@ -64,18 +43,13 @@ const Sidebar = () => {
         <div>
           {/* Nav Items */}
           <div className="flex flex-col justify-between flex-1 mt-6">
-            {/* Conditional toggle button here.. */}
-            {userRole !== "Admin" && (
-              <UserToggleButton toggleHandler={toggleHandler} toggle={toggle} />
-            )}
             {/*  Menu Items */}
             <nav>
               {/*  User only access the User Menu and link to send request to become Surveyor */}
-              {userRole === "User" && (toggle ? null : <UserMenus />)}
+              {userRole === "User" && <UserMenus />}
 
               {/* Surveyor can toggle between User to Surveyor */}
-              {userRole === "Surveyor" &&
-                (toggle ? <SurveyorMenus /> : <UserMenus />)}
+              {userRole === "Agent" && <AgentMenus />}
 
               {/* for admin only */}
               {userRole === "Admin" && <AdminMenus />}

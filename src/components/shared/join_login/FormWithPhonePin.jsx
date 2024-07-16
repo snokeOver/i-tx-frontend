@@ -43,7 +43,6 @@ const FormWithPhonePin = ({ showPin, setShowPin }) => {
   return (
     <form className="card-body" onSubmit={formik.handleSubmit}>
       {/* Phone part */}
-
       <div className="form-control">
         <label className="label">
           <span className="label-text text-lg">

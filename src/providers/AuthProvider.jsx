@@ -31,7 +31,6 @@ const AuthProvider = ({ children }) => {
   const userLogin = async (payload) => {
     const { data } = await nSAxios.post("/api/login", payload);
     if (data) {
-      console.log(data);
       setUserDetails(data.user);
       localStorage.setItem("access-token", data.token);
       localStorage.setItem("user", JSON.stringify(data.user));
@@ -45,14 +44,29 @@ const AuthProvider = ({ children }) => {
   };
   // console.log(userDetails);
 
-  //   Observe ther user change
+  // Refetch user Data
+  const refetchUserDetails = async (payload) => {
+    const { data } = await nSAxios.post("/api/refetch-user", payload);
+    if (data) {
+      setUserDetails(data.user);
+      localStorage.setItem("access-token", data.token);
+      localStorage.setItem("user", JSON.stringify(data.user));
+      setTokenSaved(true);
+      setLoading(false);
+    }
+  };
+
+  //   Observe the user change
   useEffect(() => {
     setLoading(true);
+
     const user = localStorage.getItem("user");
 
-    if (user) setUserDetails(JSON.parse(user));
-    else logOut();
-    setLoading(false);
+    if (user) refetchUserDetails(JSON.parse(user));
+    else {
+      logOut();
+      setLoading(false);
+    }
   }, []);
 
   const authItems = {
@@ -68,6 +82,7 @@ const AuthProvider = ({ children }) => {
     userDetails,
     setUserDetails,
     userLogin,
+    refetchUserDetails,
   };
   return (
     <AuthContext.Provider value={authItems}>{children}</AuthContext.Provider>

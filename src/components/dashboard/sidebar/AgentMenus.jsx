@@ -3,7 +3,7 @@ import { BsGraphUp } from "react-icons/bs";
 import { MdHomeWork } from "react-icons/md";
 import { FcSurvey, FcFeedback } from "react-icons/fc";
 
-const SurveyorMenus = () => {
+const AgentMenus = () => {
   return (
     <>
       {/* Statistics */}
@@ -37,4 +37,4 @@ const SurveyorMenus = () => {
   );
 };
 
-export default SurveyorMenus;
+export default AgentMenus;
