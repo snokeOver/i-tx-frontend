@@ -3,10 +3,10 @@ import PageSkeleton from "../components/shared/PageSkeleton";
 import useAuth from "../hooks/useAuth";
 
 const PublicRoute = ({ children }) => {
-  const { user, loading, regiSuccess } = useAuth();
+  const { userDetails, loading, regiSuccess } = useAuth();
 
   if (loading) return <PageSkeleton />;
-  if (!user || regiSuccess) return children;
+  if (!userDetails.userRole || regiSuccess) return children;
   return <Navigate to="/" />;
 };
 

@@ -56,12 +56,14 @@ const Login = () => {
       <Container nopad="true">
         <div className="hero  rounded-xl">
           <div className="hero-content  w-full flex-col flex-1 mt-16 md:mt-0 my-10 relative">
-            <button
-              onClick={handleBackButton}
-              className="btn dark:bg-gray-700 dark:hover:bg-gray-500 absolute flex items-center gap-2 left-4 text-prime top-10"
-            >
-              <FaLongArrowAltLeft className="text-2xl" /> <span>Back</span>
-            </button>
+            {(choosePhone || chooseEmail) && (
+              <button
+                onClick={handleBackButton}
+                className="btn dark:bg-gray-700 dark:hover:bg-gray-500 absolute flex items-center gap-2 left-4 text-prime top-10"
+              >
+                <FaLongArrowAltLeft className="text-2xl" /> <span>Back</span>
+              </button>
+            )}
 
             <LogoWithTitle title="Login Here" />
             <div className="card w-full max-w-lg shadow-2xl bg-base-100">
@@ -106,7 +108,7 @@ const Login = () => {
                   <span className="text-sm">Forget PIN?</span>
                   <Link
                     className="label-text-alt link link-hover text-blue-700 dark:text-blue-600 font-semibold ml-2"
-                    to="/join"
+                    to="/reset-pin"
                   >
                     Reset Now
                   </Link>

@@ -7,6 +7,13 @@ import Contact from "../pages/Contact";
 import Join from "../pages/Join";
 import Login from "../pages/Login";
 import PublicRoute from "./PublicRoute";
+import ResetPIN from "../pages/ResetPIN";
+import PrivateRoute from "./PrivateRoute";
+import UserDashboardLayout from "../layouts/UserDashboardLayout";
+import UserStatistics from "../components/dashboard/user/UserStatistics";
+import AdminDashboardLayout from "../layouts/AdminDashboardLayout";
+import ManageUsers from "../components/dashboard/admin/ManageUsers";
+import MonitorAllTx from "../components/dashboard/admin/MonitorAllTx";
 // import PrivateRoute from "./PrivateRoute";
 // import ParticipatedSurveys from "../components/dashboard/user/ParticipatedSurveys";
 // import ReportedSurveys from "../components/dashboard/user/ReportedSurveys";
@@ -36,6 +43,10 @@ const router = createBrowserRouter([
         element: <Contact />,
       },
       {
+        path: "/reset-pin",
+        element: <ResetPIN />,
+      },
+      {
         path: "/join",
         element: (
           <PublicRoute>
@@ -55,38 +66,63 @@ const router = createBrowserRouter([
   },
 
   // user only
-  // {
-  //   path: "/dashboard/user",
-  //   element: (
-  //     <PrivateRoute>
-  //       <UserDashboardLayout />
-  //     </PrivateRoute>
-  //   ),
-  //   children: [
-  //     // Mango People routes
-  //     {
-  //       path: "",
-  //       element: <UserStatistics />,
-  //     },
-  //     {
-  //       path: "Send Money",
-  //       element: <ParticipatedSurveys />,
-  //     },
-  //     {
-  //       path: "Cash In",
-  //       element: <RequestForSurveyor />,
-  //     },
+  {
+    path: "/dashboard",
+    element: (
+      <PrivateRoute>
+        <UserDashboardLayout />
+      </PrivateRoute>
+    ),
+    children: [
+      // Mango People routes
+      {
+        path: "",
+        element: <UserStatistics />,
+      },
+      {
+        path: "Send Money",
+        element: <UserStatistics />,
+      },
+      {
+        path: "Cash In",
+        element: <UserStatistics />,
+      },
 
-  //     {
-  //       path: "Cash Out",
-  //       element: <ReportedSurveys />,
-  //     },
-  //     {
-  //       path: "Transaction",
-  //       element: <ReportedSurveys />,
-  //     },
-  //   ],
-  // },
+      {
+        path: "Cash Out",
+        element: <UserStatistics />,
+      },
+      {
+        path: "Transaction",
+        element: <UserStatistics />,
+      },
+    ],
+  },
+
+  // Admin only
+  {
+    path: "/dashboard/admin",
+    element: (
+      <PrivateRoute>
+        <AdminDashboardLayout />
+      </PrivateRoute>
+    ),
+    children: [
+      // Admin routes
+      {
+        path: "",
+        element: <UserStatistics />,
+      },
+      {
+        path: "manage-users",
+        element: <ManageUsers />,
+      },
+      {
+        path: "monitor-tx",
+        element: <MonitorAllTx />,
+      },
+    ],
+  },
 ]);
 
 export default router;

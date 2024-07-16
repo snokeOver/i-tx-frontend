@@ -3,9 +3,13 @@ import { signInSchemaWithEmail } from "../../../helper/signUpSchema";
 import useData from "../../../hooks/useData";
 import ActionButton from "../ActionButton";
 import { BsEyeSlashFill, BsFillEyeFill } from "react-icons/bs";
+import { useNavigate } from "react-router-dom";
+import useAuth from "../../../hooks/useAuth";
 
 const FormWithEmailPIN = ({ showPin, setShowPin }) => {
   const { setActnBtnLoading, setToastMsg } = useData();
+  const { userLogin } = useAuth();
+  const navigate = useNavigate();
 
   // Initial values for the form and formik
   const initialValues = {
@@ -21,10 +25,12 @@ const FormWithEmailPIN = ({ showPin, setShowPin }) => {
     onSubmit: async (values, action) => {
       setActnBtnLoading(true);
       try {
-        // const { user } = await signIn(values.Email, values.Password);
-        // setRegiSuccess(true);
-        // inserUsrInfo(user.email, user.uid, user.displayName);
-        console.log(values);
+        const response = await userLogin(values);
+        if (response.res === "Login Success") {
+          setToastMsg("suc Login Successful  !");
+          navigate("/");
+          setActnBtnLoading(false);
+        }
       } catch (err) {
         setToastMsg("err Wrong Credential  !");
         setActnBtnLoading(false);

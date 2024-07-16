@@ -4,7 +4,7 @@ import useAuth from "./useAuth";
 
 const useGetData = ({ apiRoute, dataId = "", additionalQuerry = "" }) => {
   const sAxios = useSAxios();
-  const { user } = useAuth();
+  const { userDetails } = useAuth();
 
   const {
     data = [],
@@ -13,12 +13,12 @@ const useGetData = ({ apiRoute, dataId = "", additionalQuerry = "" }) => {
     isPending,
   } = useQuery({
     queryKey: [apiRoute, dataId],
-    enabled: !!user && !!user.uid,
+    enabled: !!userDetails && !!userDetails.mobile,
     retry: 3,
 
     queryFn: async () => {
       const { data } = await sAxios.get(
-        `/api/${apiRoute}/${user.uid}/?dataId=${dataId}&${additionalQuerry}`
+        `/api/${apiRoute}/${userDetails.mobile}/?dataId=${dataId}&${additionalQuerry}`
       );
       return data.response;
     },

@@ -3,11 +3,11 @@ import PageSkeleton from "../components/shared/PageSkeleton";
 import useAuth from "../hooks/useAuth";
 
 const PrivateRoute = ({ children }) => {
-  const { user, loading } = useAuth();
+  const { userDetails, loading } = useAuth();
   const location = useLocation();
 
   if (loading) return <PageSkeleton />;
-  if (user) return children;
+  if (userDetails) return children;
   return <Navigate state={location.pathname} to="/login" />;
 };
 

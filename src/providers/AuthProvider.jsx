@@ -11,6 +11,7 @@ const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [regiSuccess, setRegiSuccess] = useState(false);
   const [tokenSaved, setTokenSaved] = useState(false);
+
   const [userDetails, setUserDetails] = useState({
     userRole: "",
     status: "",
@@ -20,6 +21,10 @@ const AuthProvider = ({ children }) => {
   const logOut = () => {
     localStorage.removeItem("user");
     localStorage.removeItem("access-token");
+    setUserDetails({
+      userRole: "",
+      status: "",
+    });
   };
 
   // Get Token and user details

@@ -21,8 +21,16 @@ const Navbar = () => {
   // Logout if no user
   useEffect(() => {
     if (!userDetails?.email) navigate("/login");
-    else navigate("/");
-    console.log(userDetails);
+    else
+      navigate(
+        `${
+          userDetails.userRole === "User"
+            ? "/dashboard"
+            : userDetails.userRole === "Agent"
+            ? "/dashboard/agent"
+            : "/dashboard/admin"
+        }`
+      );
   }, [userDetails]);
 
   // Handle LogOut operation
@@ -58,7 +66,7 @@ const Navbar = () => {
         <RingLoading />
       ) : (
         <>
-          {userDetails && (
+          {userDetails.userRole && (
             <>
               {/* Dashboard link */}
               <NavigationLink
@@ -127,7 +135,7 @@ const Navbar = () => {
         <ThemeButton />
         {loading || pageLoading ? (
           <RingLoading />
-        ) : userDetails ? (
+        ) : userDetails.userRole ? (
           <>
             {/* New avatar */}
             <div className="dropdown dropdown-end ml-1">

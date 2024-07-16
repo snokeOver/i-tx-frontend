@@ -4,13 +4,11 @@ import useData from "../../../hooks/useData";
 import ActionButton from "../ActionButton";
 import { BsEyeSlashFill, BsFillEyeFill } from "react-icons/bs";
 import { FaPhoneAlt } from "react-icons/fa";
-import useAxios from "../../../hooks/useAxios";
 import useAuth from "../../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 
 const FormWithPhonePin = ({ showPin, setShowPin }) => {
-  const nsAxios = useAxios();
-  const { setUserDetails, userLogin } = useAuth();
+  const { userLogin } = useAuth();
   const navigate = useNavigate();
   const { setActnBtnLoading, setToastMsg } = useData();
 
@@ -28,11 +26,11 @@ const FormWithPhonePin = ({ showPin, setShowPin }) => {
     onSubmit: async (values, action) => {
       setActnBtnLoading(true);
       try {
-        console.log(values);
         const response = await userLogin(values);
         if (response.res === "Login Success") {
           setToastMsg("suc Login Successful  !");
           navigate("/");
+          setActnBtnLoading(false);
         }
       } catch (err) {
         setToastMsg("err Wrong Credentials  !");
