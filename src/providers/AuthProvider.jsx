@@ -6,96 +6,63 @@ export const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
   const nSAxios = useAxios();
+
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
   const [regiSuccess, setRegiSuccess] = useState(false);
   const [tokenSaved, setTokenSaved] = useState(false);
   const [userDetails, setUserDetails] = useState({
     userRole: "",
-    userRequest: "",
+    status: "",
   }); //Initially should be null
-
-  // console.log(auth);
-  // Register with email and password
-  const register = (email, pass) => {
-    return;
-  };
-
-  // Check if the token is present in the cookies
-
-  // Login with email and Password
-  const signIn = (email, pass) => {
-    return;
-  };
-
-  // Register with Google
-  const googleRegister = () => {
-    return;
-  };
-
-  // Register with Github
-  const githubRegister = () => {
-    return;
-  };
-
-  // Update user Info
-  const updateUser = (user, payLoad) => {
-    return;
-  };
 
   // Log out User
   const logOut = () => {
-    return;
+    localStorage.removeItem("user");
+    localStorage.removeItem("access-token");
   };
 
   // Get Token and user details
-  const getTokenAndUserDetils = async (currUser) => {
-    const { data } = await nSAxios.post("/api/jwt", { uid: currUser.uid });
+  const userLogin = async (payload) => {
+    const { data } = await nSAxios.post("/api/login", payload);
     if (data) {
+      console.log(data);
+      setUserDetails(data.user);
       localStorage.setItem("access-token", data.token);
-
-      setUserDetails(data.userDetails);
+      localStorage.setItem("user", JSON.stringify(data.user));
       setTokenSaved(true);
+      return { res: "Login Success" };
+    } else {
+      setTokenSaved(false);
+      logOut();
+      return { res: "Login Failed" };
     }
   };
   // console.log(userDetails);
 
   //   Observe ther user change
   useEffect(() => {
-    // const unSubscribe = onAuthStateChanged(auth, async (currUser) => {
-    //   if (currUser?.uid) {
-    //     setUser(currUser);
-    //     getTokenAndUserDetils(currUser);
-    //   } else {
-    //     localStorage.removeItem("access-token");
-    //     setTokenSaved(false);
-    //     logOut();
-    //   }
+    setLoading(true);
+    const user = localStorage.getItem("user");
 
-    //   setLoading(false);
-    // });
+    if (user) setUserDetails(JSON.parse(user));
+    else logOut();
     setLoading(false);
-    // return () => unSubscribe();
   }, []);
 
   const authItems = {
     user,
     setUser,
-    register,
     loading,
     setLoading,
-    signIn,
     logOut,
-    updateUser,
-    googleRegister,
-    githubRegister,
     regiSuccess,
     setRegiSuccess,
     tokenSaved,
     setTokenSaved,
     userDetails,
     setUserDetails,
-    getTokenAndUserDetils,
+    userLogin,
   };
   return (
     <AuthContext.Provider value={authItems}>{children}</AuthContext.Provider>

@@ -7,15 +7,15 @@ import Contact from "../pages/Contact";
 import Join from "../pages/Join";
 import Login from "../pages/Login";
 import PublicRoute from "./PublicRoute";
-import PrivateRoute from "./PrivateRoute";
-import ParticipatedSurveys from "../components/dashboard/user/ParticipatedSurveys";
-import ReportedSurveys from "../components/dashboard/user/ReportedSurveys";
+// import PrivateRoute from "./PrivateRoute";
+// import ParticipatedSurveys from "../components/dashboard/user/ParticipatedSurveys";
+// import ReportedSurveys from "../components/dashboard/user/ReportedSurveys";
 
-import RequestForSurveyor from "../components/dashboard/user/RequestForSurveyor";
+// import RequestForSurveyor from "../components/dashboard/user/RequestForSurveyor";
 
-import UserDashboardLayout from "../layouts/UserDashboardLayout";
+// import UserDashboardLayout from "../layouts/UserDashboardLayout";
 
-import UserStatistics from "../components/dashboard/user/UserStatistics";
+// import UserStatistics from "../components/dashboard/user/UserStatistics";
 
 const router = createBrowserRouter([
   {
@@ -55,38 +55,38 @@ const router = createBrowserRouter([
   },
 
   // user only
-  {
-    path: "/dashboard/user",
-    element: (
-      <PrivateRoute>
-        <UserDashboardLayout />
-      </PrivateRoute>
-    ),
-    children: [
-      // Mango People routes
-      {
-        path: "",
-        element: <UserStatistics />,
-      },
-      {
-        path: "Send Money",
-        element: <ParticipatedSurveys />,
-      },
-      {
-        path: "Cash In",
-        element: <RequestForSurveyor />,
-      },
+  // {
+  //   path: "/dashboard/user",
+  //   element: (
+  //     <PrivateRoute>
+  //       <UserDashboardLayout />
+  //     </PrivateRoute>
+  //   ),
+  //   children: [
+  //     // Mango People routes
+  //     {
+  //       path: "",
+  //       element: <UserStatistics />,
+  //     },
+  //     {
+  //       path: "Send Money",
+  //       element: <ParticipatedSurveys />,
+  //     },
+  //     {
+  //       path: "Cash In",
+  //       element: <RequestForSurveyor />,
+  //     },
 
-      {
-        path: "Cash Out",
-        element: <ReportedSurveys />,
-      },
-      {
-        path: "Transaction",
-        element: <ReportedSurveys />,
-      },
-    ],
-  },
+  //     {
+  //       path: "Cash Out",
+  //       element: <ReportedSurveys />,
+  //     },
+  //     {
+  //       path: "Transaction",
+  //       element: <ReportedSurveys />,
+  //     },
+  //   ],
+  // },
 ]);
 
 export default router;

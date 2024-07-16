@@ -2,10 +2,6 @@ import * as Yup from "yup";
 import axios from "axios";
 
 const baseURL = import.meta.env.VITE_BASE_URL;
-const lowerCase = /^(?=.*[a-z])/;
-const upperCase = /^(?=.*[A-Z])/;
-const specialChar = /^(?=.*[!@#$%^&*])/;
-const number = /^(?=.*\d)/;
 
 export const signUpSchema = Yup.object({
   Category: Yup.string().required("Please select a category"),

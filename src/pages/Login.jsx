@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import useAuth from "../hooks/useAuth.jsx";
 import useData from "../hooks/useData.jsx";
@@ -8,7 +8,6 @@ import LogoWithTitle from "../components/shared/join_login/LogoWithTitle.jsx";
 import Container from "../components/shared/Container.jsx";
 
 import { FaLongArrowAltLeft } from "react-icons/fa";
-import useSAxios from "../hooks/useSAxios.jsx";
 import WithEmailButton from "../components/shared/join_login/WithEmailButton.jsx";
 import WithPhoneButton from "../components/shared/join_login/WithPhoneButton.jsx";
 
@@ -16,50 +15,13 @@ import FormWithEmailPIN from "../components/shared/join_login/FormWithEmailPIN.j
 import FormWithPhonePin from "../components/shared/join_login/FormWithPhonePin.jsx";
 
 const Login = () => {
-  const { setUserDetails } = useAuth();
-  const sAxios = useSAxios();
-
   const [choosePhone, setChoosePhone] = useState(false);
   const [chooseEmail, setChooseEmail] = useState(false);
 
-  const {
-    signIn,
-    googleRegister,
-    githubRegister,
-    logOutSuccess,
-    setLogOutSuccess,
-    setRegiSuccess,
-  } = useAuth();
-  const { setToastMsg, setGBtnLoading, setGitBtnLoading, setActnBtnLoading } =
-    useData();
-
-  const navigate = useNavigate();
-  const location = useLocation();
+  const { logOutSuccess, setLogOutSuccess } = useAuth();
+  const { setToastMsg } = useData();
 
   const [showPin, setShowPin] = useState(false);
-
-  // handle Firebase error while registering
-  const firebaseLoginError = (err) => {
-    // console.log(err.message);
-    // console.log(err.code);
-    if (err.code === "auth/invalid-credential") {
-      setToastMsg("err Wrong Credential  !");
-    } else {
-      setToastMsg(`err ${err.code}`);
-    }
-    setActnBtnLoading(false);
-    setGitBtnLoading(false);
-    setGBtnLoading(false);
-  };
-
-  // Handle All successful firebase Login
-  const firebaseLoginSuccess = () => {
-    setToastMsg("suc Login Successful  !");
-    setActnBtnLoading(false);
-    setGitBtnLoading(false);
-    setGBtnLoading(false);
-    navigate(location?.state ? location.state : "/");
-  };
 
   // Log Out success Toast
   useEffect(() => {
@@ -68,22 +30,6 @@ const Login = () => {
       setLogOutSuccess(false);
     }
   }, [logOutSuccess]);
-
-  // Insert user information in the database
-  const inserUsrInfo = async (email, uid, name) => {
-    const userInfo = {
-      email: email || "Private_Email",
-      uid: uid,
-      name: name,
-      role: "User",
-    };
-
-    const { data } = await sAxios.post("/api/create-user", userInfo);
-    if (data) {
-      if (data.savedUser) setUserDetails(data.savedUser);
-      firebaseLoginSuccess();
-    }
-  };
 
   // Handle choose Phone
   const handleChoosePhone = () => {

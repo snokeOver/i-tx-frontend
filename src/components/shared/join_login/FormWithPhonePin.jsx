@@ -4,8 +4,14 @@ import useData from "../../../hooks/useData";
 import ActionButton from "../ActionButton";
 import { BsEyeSlashFill, BsFillEyeFill } from "react-icons/bs";
 import { FaPhoneAlt } from "react-icons/fa";
+import useAxios from "../../../hooks/useAxios";
+import useAuth from "../../../hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 
 const FormWithPhonePin = ({ showPin, setShowPin }) => {
+  const nsAxios = useAxios();
+  const { setUserDetails, userLogin } = useAuth();
+  const navigate = useNavigate();
   const { setActnBtnLoading, setToastMsg } = useData();
 
   // Initial values for the form and formik
@@ -22,12 +28,14 @@ const FormWithPhonePin = ({ showPin, setShowPin }) => {
     onSubmit: async (values, action) => {
       setActnBtnLoading(true);
       try {
-        // const { user } = await signIn(values.Email, values.Password);
-        // setRegiSuccess(true);
-        // inserUsrInfo(user.email, user.uid, user.displayName);
         console.log(values);
+        const response = await userLogin(values);
+        if (response.res === "Login Success") {
+          setToastMsg("suc Login Successful  !");
+          navigate("/");
+        }
       } catch (err) {
-        setToastMsg("err Wrong Credential  !");
+        setToastMsg("err Wrong Credentials  !");
         setActnBtnLoading(false);
       } finally {
         action.resetForm();

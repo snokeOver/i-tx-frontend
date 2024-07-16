@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import NavigationLink from "./NavigationLink";
 import SubNavLink from "./SubNavLink";
 import SiteName from "../shared/SiteName";
@@ -6,16 +6,24 @@ import ThemeButton from "./ThemeButton";
 import useData from "../../hooks/useData";
 import useAuth from "../../hooks/useAuth";
 import useSweetAlert from "../../hooks/useSweetAlert";
-import useLogOut from "../../hooks/useLogOut";
+
 import RingLoading from "../shared/RingLoading";
 import { FaMoneyBillTransfer } from "react-icons/fa6";
+import { useEffect } from "react";
 
 const Navbar = () => {
-  const { siteLogo, pageLoading } = useData();
-  const { user, loading, userDetails } = useAuth();
-  const logOut = useLogOut();
+  const { pageLoading } = useData();
+  const { loading, userDetails, logOut } = useAuth();
+  const navigate = useNavigate();
 
   const makeAlert = useSweetAlert();
+
+  // Logout if no user
+  useEffect(() => {
+    if (!userDetails?.email) navigate("/login");
+    else navigate("/");
+    console.log(userDetails);
+  }, [userDetails]);
 
   // Handle LogOut operation
   const handleLogOut = async () => {
@@ -23,6 +31,7 @@ const Navbar = () => {
 
     if (result.isConfirmed) {
       logOut();
+      navigate("/login");
     }
   };
 
@@ -49,7 +58,7 @@ const Navbar = () => {
         <RingLoading />
       ) : (
         <>
-          {user && (
+          {userDetails && (
             <>
               {/* Dashboard link */}
               <NavigationLink
@@ -101,7 +110,6 @@ const Navbar = () => {
             className="text-3xl font-semibold font-rubik flex items-center"
             to="/"
           >
-            {/* <img src={siteLogo} alt="" className="w-12 mr-1" /> */}
             <FaMoneyBillTransfer className="w-14 h-14  mr-1" />
 
             <div className="hidden md:flex ">
@@ -119,7 +127,7 @@ const Navbar = () => {
         <ThemeButton />
         {loading || pageLoading ? (
           <RingLoading />
-        ) : user ? (
+        ) : userDetails ? (
           <>
             {/* New avatar */}
             <div className="dropdown dropdown-end ml-1">
@@ -131,7 +139,7 @@ const Navbar = () => {
                 <div className="w-8 rounded-full">
                   <img
                     alt="User Photo"
-                    src={user.photoURL || fallbackPPUrl}
+                    src={userDetails?.photoURL || fallbackPPUrl}
                     onError={handleImageError}
                   />
                 </div>
@@ -141,8 +149,11 @@ const Navbar = () => {
                 className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
               >
                 <div className="flex flex-col gap-1 text-xs ml-3">
-                  <h3> {user.displayName}</h3>
-                  <h3 className="mt-1"> {user.email || "<Private_Email>"}</h3>
+                  <h3> {userDetails.name}</h3>
+                  <h3 className="mt-1">
+                    {" "}
+                    {userDetails.email || "<Private_Email>"}
+                  </h3>
                 </div>
                 <div className="divider my-1"></div>
                 {/* Profile link */}
