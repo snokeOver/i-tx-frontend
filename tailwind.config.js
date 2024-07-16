@@ -9,6 +9,10 @@ export default {
       ...defaultTheme.screens,
     },
     extend: {
+      colors: {
+        prime: "#FBBC05",
+        navColor: "#126E51",
+      },
       fontFamily: {
         lato: '"Lato", sans-serif',
         rubik: '"Rubik Maps", system-ui',
@@ -24,8 +28,8 @@ export default {
           ...require("daisyui/src/theming/themes")["light"],
           primary: "#2196F3",
           secondary: "teal",
-          ".navbarr": {
-            "background-color": "#e0dede",
+          ".navbar-color": {
+            "background-color": "#2196F3",
           },
 
           "--swiper-navigation-color": "#2196F3",
@@ -36,10 +40,10 @@ export default {
       {
         dark: {
           ...require("daisyui/src/theming/themes")["dark"],
-          primary: "green",
+          primary: "#FFE418",
           secondary: "teal",
-          ".navbarr": {
-            "background-color": "#242323",
+          ".navbar-color": {
+            "background-color": "#111827",
           },
 
           "--swiper-navigation-color": "green",
