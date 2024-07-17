@@ -13,8 +13,11 @@ import UserDashboardLayout from "../layouts/UserDashboardLayout";
 import UserStatistics from "../components/dashboard/user/UserStatistics";
 import AdminDashboardLayout from "../layouts/AdminDashboardLayout";
 import ManageUsers from "../components/dashboard/admin/ManageUsers";
-import MonitorAllTx from "../components/dashboard/admin/MonitorAllTx";
+// import MonitorAllTx from "../components/dashboard/admin/MonitorAllTx";
 import CashOut from "../components/dashboard/user/CashOut";
+import AgentDashboardLayout from "../layouts/AgentDashboardLayout";
+import AgentDashboard from "../components/dashboard/agent/AgentDashboard";
+import PendingTxForAgent from "../components/dashboard/agent/PendingTxForAgent";
 // import PrivateRoute from "./PrivateRoute";
 // import ParticipatedSurveys from "../components/dashboard/user/ParticipatedSurveys";
 // import ReportedSurveys from "../components/dashboard/user/ReportedSurveys";
@@ -66,6 +69,29 @@ const router = createBrowserRouter([
     ],
   },
 
+  // Agent only
+  {
+    path: "/dashboard/agent",
+    element: (
+      <PrivateRoute>
+        <AgentDashboardLayout />
+      </PrivateRoute>
+    ),
+    children: [
+      {
+        path: "",
+        element: <AgentDashboard />,
+      },
+      {
+        path: "pending-tx",
+        element: <PendingTxForAgent />,
+      },
+      {
+        path: "tx-history",
+        element: <AgentDashboard />,
+      },
+    ],
+  },
   // user only
   {
     path: "/dashboard",
@@ -118,10 +144,10 @@ const router = createBrowserRouter([
         path: "manage-users",
         element: <ManageUsers />,
       },
-      {
-        path: "monitor-tx",
-        element: <MonitorAllTx />,
-      },
+      // {
+      //   path: "monitor-tx",
+      //   element: <MonitorAllTx />,
+      // },
     ],
   },
 ]);

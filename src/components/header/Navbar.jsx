@@ -9,14 +9,24 @@ import useSweetAlert from "../../hooks/useSweetAlert";
 import { TbCurrencyTaka } from "react-icons/tb";
 import RingLoading from "../shared/RingLoading";
 import { FaMoneyBillTransfer } from "react-icons/fa6";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const Navbar = () => {
   const { pageLoading } = useData();
   const { loading, userDetails, logOut } = useAuth();
   const navigate = useNavigate();
+  const [showBalance, setShowBalance] = useState(false);
 
   const makeAlert = useSweetAlert();
+
+  // Show balance for a particular time
+  useEffect(() => {
+    if (showBalance) {
+      setTimeout(() => {
+        setShowBalance(false);
+      }, 5000);
+    }
+  }, [showBalance]);
 
   // Logout if no user
   useEffect(() => {
@@ -129,8 +139,26 @@ const Navbar = () => {
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">{navItems}</ul>
       </div>
+
       {/* Navbar End */}
       <div className="navbar-end">
+        {/* Blance Part */}
+        {userDetails && showBalance ? (
+          <h3 className="mr-10 flex items-center">
+            <span>
+              <TbCurrencyTaka className="text-xl" />
+            </span>
+            <span className="text-prime">{userDetails.balance.toFixed(2)}</span>
+          </h3>
+        ) : (
+          <button
+            onClick={() => setShowBalance(true)}
+            className="btn mr-10 border bg-transparent border-prime text-gray-700 dark:text-gray-400 py-2 "
+          >
+            Show Balance
+          </button>
+        )}
+
         {/* Here the theme toggle button component */}
         <ThemeButton />
         {loading || pageLoading ? (

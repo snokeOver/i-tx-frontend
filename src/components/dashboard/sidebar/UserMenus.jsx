@@ -36,7 +36,7 @@ const UserMenus = () => {
         icon={FaLongArrowAltRight}
       />
 
-      {/*Transactions */}
+      {/*Transaction History */}
       <DynamicNavLinks
         address="/dashboard/tx-history"
         name="Transactions"

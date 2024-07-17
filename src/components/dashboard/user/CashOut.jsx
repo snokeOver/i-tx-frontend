@@ -10,6 +10,8 @@ import { FaPhoneAlt } from "react-icons/fa";
 import { TbCurrencyTaka } from "react-icons/tb";
 import usePostData from "../../../hooks/usePostData";
 import { useNavigate } from "react-router-dom";
+import { FaCheck } from "react-icons/fa6";
+import { formatDateTime } from "../../../helper/helperFunction";
 
 const CashOut = () => {
   const { setActnBtnLoading } = useData();
@@ -19,6 +21,7 @@ const CashOut = () => {
   const [charge, setCharge] = useState(0);
   const [finalBalance, setFinalBalance] = useState(0);
   const [openModal, setOpenModal] = useState(false);
+  const [createdTx, setCreatedTx] = useState({});
 
   const [amount, setAmount] = useState(0);
   const navigate = useNavigate();
@@ -44,9 +47,16 @@ const CashOut = () => {
         ...userDetails,
       };
 
-      await makeCashOut("CashOut", "create-cashout", payload, "noSkip", [
+      const { savedTransaction } = await makeCashOut(
+        "CashOut",
         "create-cashout",
-      ]);
+        payload,
+        "noSkip",
+        ["create-cashout"]
+      );
+      console.log(savedTransaction);
+      setCreatedTx(savedTransaction);
+
       setOpenModal(true);
 
       action.resetForm();
@@ -68,6 +78,7 @@ const CashOut = () => {
   const handleOkay = async () => {
     await refetchUserDetails(userDetails);
     setOpenModal(false);
+    setCreatedTx({});
     navigate("/dashboard/cash-out");
   };
 
@@ -173,19 +184,21 @@ const CashOut = () => {
       </div>
 
       {/* Summary Part */}
-      <div className="border min-w-2xl border-gray-300 dark:border-gray-700 rounded-xl p-7 flex flex-col gap-3 mx-auto">
-        <h2 className="text-center text-prime text-xl">Summary</h2>
-        <div className="grid grid-cols-2 gap-5">
-          <h4 className="text-right">Current Balance:</h4>
-          <h5 className="text-right">{userDetails?.balance?.toFixed(2)}</h5>
-        </div>
-        <div className="grid grid-cols-2 gap-5">
-          <h4 className="text-right">Charge:</h4>{" "}
-          <h5 className="text-right">{charge?.toFixed(2)}</h5>
-        </div>
-        <div className="grid grid-cols-2 gap-5 border-t border-gray-300 dark:border-gray-700 pt-1">
-          <h4 className="text-right">After Cash Out:</h4>
-          <h5 className="text-right">{finalBalance?.toFixed(2)}</h5>
+      <div>
+        <div className="border min-w-2xl border-gray-300 dark:border-gray-700 rounded-xl p-7 flex flex-col gap-3 mx-auto">
+          <h2 className="text-center text-prime text-xl">Summary</h2>
+          <div className="grid grid-cols-2 gap-5">
+            <h4 className="text-right">Current Balance:</h4>
+            <h5 className="text-right">{userDetails?.balance?.toFixed(2)}</h5>
+          </div>
+          <div className="grid grid-cols-2 gap-5">
+            <h4 className="text-right">Charge:</h4>{" "}
+            <h5 className="text-right">{charge?.toFixed(2)}</h5>
+          </div>
+          <div className="grid grid-cols-2 gap-5 border-t border-gray-300 dark:border-gray-700 pt-1">
+            <h4 className="text-right">After Cash Out:</h4>
+            <h5 className="text-right">{finalBalance?.toFixed(2)}</h5>
+          </div>
         </div>
       </div>
 
@@ -202,50 +215,55 @@ const CashOut = () => {
             </button>
           </form>
 
-          <div className="w-[80%] xl:w-[70%] mx-auto mt-10">
+          <div className="w-[90%]  mx-auto mt-10">
             {/* Summary Part */}
             <div className="border min-w-2xl border-gray-300 dark:border-gray-700 rounded-xl p-7 flex flex-col gap-3 mx-auto">
-              <h2 className="text-center text-prime text-xl">
-                Cash Out Summary
+              <h2 className="text-center text-prime text-xl flex items-center gap-2 justify-center">
+                <FaCheck className="text-3xl text-green-500" />
+                <span>Cash Out Created !</span>
               </h2>
-              <div className="grid grid-cols-2 gap-5">
-                <h4 className="text-right">Agent Number:</h4>
-                <h5 className="text-right">
-                  {userDetails?.balance?.toFixed(2)}
+              <div className="grid grid-cols-3 gap-5">
+                <h4 className="text-right">Agent :</h4>
+                <h5 className="text-right col-span-2">
+                  {createdTx?.agentNumber}
                 </h5>
               </div>
-              <div className="grid grid-cols-2 gap-5">
-                <h4 className="text-right">Transaction Id:</h4>
-                <h5 className="text-right">
-                  {userDetails?.balance?.toFixed(2)}
+              <div className="grid grid-cols-3 gap-5">
+                <h4 className="text-right">Tx Id :</h4>
+                <h5 className="text-right col-span-2">{createdTx?._id}</h5>
+              </div>
+              <div className="grid grid-cols-3 gap-5">
+                <h4 className="text-right">Time :</h4>
+                <h5 className="text-right col-span-2">
+                  {formatDateTime(createdTx?.createdAt)}
                 </h5>
               </div>
-              <div className="grid grid-cols-2 gap-5">
-                <h4 className="text-right">Time & Date:</h4>
-                <h5 className="text-right">
-                  {userDetails?.balance?.toFixed(2)}
-                </h5>
+              <div className="grid grid-cols-3 gap-5">
+                <h4 className="text-right">Status :</h4>
+                <h5 className="text-right col-span-2">{createdTx?.status}</h5>
               </div>
-              <div className="grid grid-cols-2 gap-5">
-                <h4 className="text-right">Current Status:</h4>
-                <h5 className="text-right">
-                  {userDetails?.balance?.toFixed(2)}
-                </h5>
-              </div>
-              <div className="grid grid-cols-2 gap-5 mt-5">
-                <h4 className="text-right">Cash Out Amount:</h4>
-                <h5 className="text-right">
-                  {userDetails?.balance?.toFixed(2)}
+              <div className="grid grid-cols-3 gap-5 mt-5">
+                <h4 className="text-right">Amount :</h4>
+                <h5 className="text-right col-span-2">
+                  {createdTx?.amount?.toFixed(2)}
                 </h5>
               </div>
 
-              <div className="grid grid-cols-2 gap-5">
-                <h4 className="text-right">Charge:</h4>{" "}
-                <h5 className="text-right">{charge?.toFixed(2)}</h5>
+              <div className="grid grid-cols-3 gap-5">
+                <h4 className="text-right">Charge :</h4>
+                <h5 className="text-right col-span-2">
+                  {createdTx?.charge?.toFixed(2)}
+                </h5>
               </div>
-              <div className="grid grid-cols-2 gap-5 border-t border-gray-300 dark:border-gray-700 pt-1">
-                <h4 className="text-right">Balance:</h4>
-                <h5 className="text-right">{finalBalance?.toFixed(2)}</h5>
+              <div className="grid grid-cols-3 gap-5 border-t border-gray-300 dark:border-gray-700 pt-1">
+                <h4 className="text-right">Balance :</h4>
+                <h5 className="text-right col-span-2">
+                  {(
+                    userDetails?.balance -
+                    createdTx?.amount -
+                    createdTx?.charge
+                  ).toFixed(2)}
+                </h5>
               </div>
             </div>
 

@@ -1,34 +1,24 @@
 import { Tooltip } from "react-tooltip";
 import { TbListDetails } from "react-icons/tb";
-
-const SingleSurveyWithResponse = ({
-  singleSurvey,
-  index,
-
-  handleViewDetails,
-}) => {
-  const { title, category, _id, totalResponse } = singleSurvey;
+import { TbCurrencyTaka } from "react-icons/tb";
+import { formatDateTime } from "../../../helper/helperFunction";
+const SingleTxRow = ({ singlePendingTx, index, handleActions }) => {
+  const { userNumber, amount, createdAt } = singlePendingTx;
 
   return (
     <>
       <tr className="cursor-pointer dark:hover:bg-gray-800 hover:bg-gray-400 hover:scale-[1.02] duration-500">
         <th>{index + 1}</th>
-        <td>{title}</td>
-        <td>{category}</td>
-
-        <td>
-          <span
-            className={`${
-              totalResponse > 0 ? "bg-sky-400 text-gray-900" : ""
-            } font-bold text-lg px-4 rounded-xl`}
-          >
-            {totalResponse}
-          </span>
+        <td>{formatDateTime(createdAt)}</td>
+        <td className="flex items-center gap-1">
+          <TbCurrencyTaka className="text-lg" />
+          <span className="text-prime">{amount.toFixed(2)}</span>
         </td>
+        <td>{userNumber}</td>
 
-        <td className="details_btn_tooltip">
+        <td className="details_btn_tooltip  flex justify-center">
           <button
-            onClick={() => handleViewDetails(_id)}
+            onClick={() => handleActions(singlePendingTx)}
             className="text-gray-500 transition-colors duration-200   hover:text-primary focus:outline-none"
           >
             <TbListDetails className="text-xl" />
@@ -42,10 +32,10 @@ const SingleSurveyWithResponse = ({
         className="z-50"
         variant="info"
       >
-        <p>View Responses</p>
+        <p>Accept/Reject</p>
       </Tooltip>
     </>
   );
 };
 
-export default SingleSurveyWithResponse;
+export default SingleTxRow;
