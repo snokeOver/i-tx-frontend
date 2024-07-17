@@ -4,7 +4,7 @@ import { cashOutSchema } from "../../../helper/formValidation";
 import useData from "../../../hooks/useData";
 import useAuth from "../../../hooks/useAuth";
 import ActionButton from "../../shared/ActionButton";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { BsEyeSlashFill, BsFillEyeFill } from "react-icons/bs";
 import { FaPhoneAlt } from "react-icons/fa";
 import { TbCurrencyTaka } from "react-icons/tb";
@@ -12,17 +12,21 @@ import usePostData from "../../../hooks/usePostData";
 import { FaCheck } from "react-icons/fa6";
 import { formatDateTime } from "../../../helper/helperFunction";
 
-const CashOut = () => {
+const TransactionFormat = ({
+  pageTitle,
+  setAmount,
+  setCharge,
+  setFinalBalance,
+  charge,
+  finalBalance,
+}) => {
   const { setActnBtnLoading } = useData();
   const { refetchUserDetails, userDetails } = useAuth();
   const [showPin, setShowPin] = useState(false);
-  const makeCashOut = usePostData();
-  const [charge, setCharge] = useState(0);
-  const [finalBalance, setFinalBalance] = useState(0);
+  const makeCashOutIn = usePostData();
+
   const [openModal, setOpenModal] = useState(false);
   const [createdTx, setCreatedTx] = useState({});
-
-  const [amount, setAmount] = useState(0);
 
   // console.log(amount);
 
@@ -44,47 +48,38 @@ const CashOut = () => {
       const payload = {
         ...values,
         ...userDetails,
+        txType: pageTitle,
       };
-
-      const { savedTransaction } = await makeCashOut(
-        "CashOut",
+      const title = pageTitle === "Cash Out" ? "CashOut" : "CashIn";
+      const { savedTransaction } = await makeCashOutIn(
+        title,
         "create-cashout-cashin",
         payload,
         "noSkip",
         ["create-cashout-cashin"]
       );
+
       setCreatedTx(savedTransaction);
       setOpenModal(true);
       action.resetForm();
     },
   });
 
-  // Set the Summary
-  useEffect(() => {
-    if (amount >= 50) {
-      setCharge(amount * 0.015);
-      setFinalBalance(
-        parseFloat(userDetails.balance) - parseFloat(amount) * 1.015
-      );
-    } else {
-      setCharge(0);
-      setFinalBalance(0);
-    }
-  }, [amount]);
-
   // Handle OkayButton
   const handleOkay = async () => {
     await refetchUserDetails(userDetails);
     setOpenModal(false);
+    setCharge(0);
+    setFinalBalance(0);
     setCreatedTx({});
   };
 
   return (
-    <InitialTxStructure pageName="Cash Out" dashboard={true}>
+    <InitialTxStructure pageName={pageTitle} dashboard={true}>
       {/* Form section */}
 
       <div className="text-center flex-col max-w-sm mx-auto py-10 h-auto w-full border border-gray-300 dark:border-gray-700 rounded-xl p-7">
-        <h3 className="text-xl text-prime mb-2">Cash Out</h3>
+        <h3 className="text-xl text-prime mb-2">{pageTitle}</h3>
         <form onSubmit={formik.handleSubmit} className="space-y-4">
           {/* Amount part */}
           <div className="form-control">
@@ -175,7 +170,7 @@ const CashOut = () => {
           </div>
 
           <div className="form-control pt-4 md:w-[90%] mx-auto">
-            <ActionButton buttonText="Cash Out" />
+            <ActionButton buttonText={pageTitle} />
           </div>
         </form>
       </div>
@@ -193,7 +188,7 @@ const CashOut = () => {
             <h5 className="text-right">{charge?.toFixed(2)}</h5>
           </div>
           <div className="grid grid-cols-2 gap-5 border-t border-gray-300 dark:border-gray-700 pt-1">
-            <h4 className="text-right">After Cash Out:</h4>
+            <h4 className="text-right">After {pageTitle}:</h4>
             <h5 className="text-right">{finalBalance?.toFixed(2)}</h5>
           </div>
         </div>
@@ -217,21 +212,23 @@ const CashOut = () => {
             <div className="border min-w-2xl border-gray-300 dark:border-gray-700 rounded-xl p-7 flex flex-col gap-3 mx-auto">
               <h2 className="text-center text-prime text-xl flex items-center gap-2 justify-center">
                 <FaCheck className="text-3xl text-green-500" />
-                <span>Cash Out Created !</span>
+                <span>{pageTitle} Created !</span>
               </h2>
               <div className="grid grid-cols-3 gap-5">
                 <h4 className="text-right">Agent :</h4>
-                <h5 className="text-right col-span-2">
+                <h5 className="col-span-2 items-center flex justify-end">
                   {createdTx?.agentNumber}
                 </h5>
               </div>
               <div className="grid grid-cols-3 gap-5">
                 <h4 className="text-right">Tx Id :</h4>
-                <h5 className="text-right col-span-2">{createdTx?._id}</h5>
+                <h5 className="col-span-2 items-center flex justify-end">
+                  {createdTx?._id}
+                </h5>
               </div>
               <div className="grid grid-cols-3 gap-5">
                 <h4 className="text-right">Time :</h4>
-                <h5 className="text-right col-span-2">
+                <h5 className="col-span-2 items-center flex justify-end">
                   {formatDateTime(createdTx?.createdAt)}
                 </h5>
               </div>
@@ -241,25 +238,32 @@ const CashOut = () => {
               </div>
               <div className="grid grid-cols-3 gap-5 mt-5">
                 <h4 className="text-right">Amount :</h4>
-                <h5 className="text-right col-span-2">
-                  {createdTx?.amount?.toFixed(2)}
+                <h5 className="col-span-2 items-center flex justify-end">
+                  <TbCurrencyTaka className="text-xl" />
+                  <span>{createdTx?.amount?.toFixed(2)}</span>
                 </h5>
               </div>
 
               <div className="grid grid-cols-3 gap-5">
                 <h4 className="text-right">Charge :</h4>
-                <h5 className="text-right col-span-2">
-                  {createdTx?.charge?.toFixed(2)}
+                <h5 className="col-span-2 items-center flex justify-end">
+                  <TbCurrencyTaka className="text-xl" />
+                  <span>{charge?.toFixed(2)}</span>
                 </h5>
               </div>
               <div className="grid grid-cols-3 gap-5 border-t border-gray-300 dark:border-gray-700 pt-1">
                 <h4 className="text-right">Balance :</h4>
-                <h5 className="text-right col-span-2">
-                  {(
-                    userDetails?.balance -
-                    createdTx?.amount -
-                    createdTx?.charge
-                  ).toFixed(2)}
+                <h5 className="col-span-2 items-center flex justify-end">
+                  <TbCurrencyTaka className="text-xl" />
+                  <span>
+                    {pageTitle === "Cash Out"
+                      ? (
+                          userDetails?.balance -
+                          createdTx?.amount -
+                          createdTx?.charge
+                        ).toFixed(2)
+                      : userDetails?.balance}
+                  </span>
                 </h5>
               </div>
             </div>
@@ -277,4 +281,4 @@ const CashOut = () => {
   );
 };
 
-export default CashOut;
+export default TransactionFormat;

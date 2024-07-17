@@ -31,16 +31,6 @@ const Navbar = () => {
   // Logout if no user
   useEffect(() => {
     if (!userDetails?.email) navigate("/login");
-    else
-      navigate(
-        `${
-          userDetails.userRole === "User"
-            ? "/dashboard"
-            : userDetails.userRole === "Agent"
-            ? "/dashboard/agent"
-            : "/dashboard/admin"
-        }`
-      );
   }, [userDetails]);
 
   // Handle LogOut operation
@@ -117,7 +107,7 @@ const Navbar = () => {
           </div>
           <ul
             tabIndex={0}
-            className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
+            className="menu menu-sm dropdown-content mt-3 z-[100] p-2 shadow bg-base-100 rounded-box w-52 "
           >
             {navItems}
           </ul>

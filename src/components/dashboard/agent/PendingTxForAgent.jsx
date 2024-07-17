@@ -1,4 +1,3 @@
-import { useNavigate } from "react-router-dom";
 import useGetData from "../../../hooks/useGetData";
 import InitialPageStructure from "../shared/InitialPageStructure";
 import TableViewStructure from "../shared/TableViewStructure";
@@ -14,7 +13,7 @@ const PendingTxForAgent = () => {
   const [toggle, setToggle] = useState(false);
   const { userDetails, refetchUserDetails } = useAuth();
   const [type, setType] = useState("Cash Out");
-  const navigate = useNavigate();
+
   const [openModal, setOpenModal] = useState(false);
   const [currentData, setCurrentData] = useState({});
   const updateTxRequest = useUpdateData();
@@ -51,6 +50,7 @@ const PendingTxForAgent = () => {
 
   // Handle Update Button
   const handleUpdate = async () => {
+    console.log(currentData);
     await updateTxRequest(
       userDetails._id,
       "Role",
@@ -145,12 +145,12 @@ const PendingTxForAgent = () => {
 
             <div className="flex justify-center w-full my-10">
               <select
-                value={currentData.currStatus}
+                value={currentData?.status || "Pending"}
                 onChange={(e) =>
                   setCurrentData((prevData) => ({
                     ...prevData,
                     status: e.target.value,
-                    txType: "Cash Out",
+                    txType: type,
                   }))
                 }
                 className="select select-bordered w-full max-w-xs"
@@ -164,7 +164,7 @@ const PendingTxForAgent = () => {
             <div onClick={handleUpdate} className="form-control  mb-5  mx-auto">
               <ActionButton
                 buttonText="Verify & Update"
-                isDisable={currentData.status === "Pending" ? true : false}
+                isDisable={currentData?.status === "Pending" ? true : false}
               />
             </div>
           </div>
