@@ -64,8 +64,6 @@ const ManageUsers = () => {
       };
     }
 
-    console.log(payload);
-
     await updateUserRole(
       currentUser._id || user._id,
       "Role",

@@ -19,6 +19,7 @@ import AgentDashboardLayout from "../layouts/AgentDashboardLayout";
 import AgentDashboard from "../components/dashboard/agent/AgentDashboard";
 import PendingTxForAgent from "../components/dashboard/agent/PendingTxForAgent";
 import CashIn from "../components/dashboard/user/CashIn";
+import SendMoney from "../components/dashboard/user/SendMoney";
 // import PrivateRoute from "./PrivateRoute";
 // import ParticipatedSurveys from "../components/dashboard/user/ParticipatedSurveys";
 // import ReportedSurveys from "../components/dashboard/user/ReportedSurveys";
@@ -115,10 +116,9 @@ const router = createBrowserRouter([
         path: "cash-in",
         element: <CashIn />,
       },
-
       {
         path: "send-money",
-        element: <CashOut />,
+        element: <SendMoney />,
       },
       {
         path: "tx-history",

@@ -54,6 +54,8 @@ const usePostData = () => {
             querryToInvalid,
             direction,
           });
+        } else {
+          setActnBtnLoading(false);
         }
       } else {
         return await mutateAsync({

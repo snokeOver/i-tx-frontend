@@ -7,14 +7,20 @@ const CashOut = () => {
   const [charge, setCharge] = useState(0);
   const [finalBalance, setFinalBalance] = useState(0);
   const [amount, setAmount] = useState(0);
+  const sendMoneyCharge = 5;
 
   // Set the Summary
   useEffect(() => {
     if (amount >= 50) {
-      setCharge(amount * 0.015);
-      setFinalBalance(
-        parseFloat(userDetails.balance) - parseFloat(amount) * 1.015
-      );
+      if (amount > 100) {
+        setCharge(sendMoneyCharge);
+        setFinalBalance(
+          parseFloat(userDetails.balance) - sendMoneyCharge - amount
+        );
+      } else {
+        setCharge(0);
+        setFinalBalance(parseFloat(userDetails.balance) - amount);
+      }
     } else {
       setCharge(0);
       setFinalBalance(0);
@@ -23,7 +29,7 @@ const CashOut = () => {
 
   return (
     <TransactionFormat
-      pageTitle="Cash Out"
+      pageTitle="Send Money"
       setAmount={setAmount}
       setFinalBalance={setFinalBalance}
       setCharge={setCharge}

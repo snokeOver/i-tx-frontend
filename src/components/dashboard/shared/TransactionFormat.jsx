@@ -1,10 +1,14 @@
 import InitialTxStructure from "../shared/InitialTxStructure";
 import { useFormik } from "formik";
-import { cashOutSchema } from "../../../helper/formValidation";
+import {
+  cashInSchema,
+  cashOutSchema,
+  sendMoneySchema,
+} from "../../../helper/formValidation";
 import useData from "../../../hooks/useData";
 import useAuth from "../../../hooks/useAuth";
 import ActionButton from "../../shared/ActionButton";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BsEyeSlashFill, BsFillEyeFill } from "react-icons/bs";
 import { FaPhoneAlt } from "react-icons/fa";
 import { TbCurrencyTaka } from "react-icons/tb";
@@ -32,15 +36,24 @@ const TransactionFormat = ({
 
   // Initial values for the form and formik
   const initialValues = {
-    AgentNumber: "",
     Amount: "",
     Pin: "",
   };
 
+  useEffect(() => {
+    if (pageTitle === "Send Money") initialValues.Recipient = "";
+    else initialValues.AgentNumber = "";
+  }, [pageTitle]);
+
   // Handle the Creating of a survey process using formik and validation schema design with yup
   const formik = useFormik({
     initialValues: initialValues,
-    validationSchema: cashOutSchema,
+    validationSchema:
+      pageTitle === "Send Money"
+        ? sendMoneySchema
+        : pageTitle === "Cash Out"
+        ? cashOutSchema
+        : cashInSchema,
 
     onSubmit: async (values, action) => {
       setActnBtnLoading(true);
@@ -50,15 +63,27 @@ const TransactionFormat = ({
         ...userDetails,
         txType: pageTitle,
       };
-      const title = pageTitle === "Cash Out" ? "CashOut" : "CashIn";
+
+      const title =
+        pageTitle === "Send Money"
+          ? "SendMoney"
+          : pageTitle === "Cash Out"
+          ? "CashOut"
+          : "CashIn";
+
+      const path =
+        pageTitle === "Send Money"
+          ? "create-send-money"
+          : "create-cashout-cashin";
+
       const { savedTransaction } = await makeCashOutIn(
         title,
-        "create-cashout-cashin",
+        path,
         payload,
         "noSkip",
-        ["create-cashout-cashin"]
+        [path]
       );
-
+      console.log(savedTransaction);
       setCreatedTx(savedTransaction);
       setOpenModal(true);
       action.resetForm();
@@ -105,28 +130,52 @@ const TransactionFormat = ({
             )}
           </div>
 
-          {/* Agent number part */}
-          <div className="form-control">
-            <label className="label">
-              <span className="label-text text-lg">Agent Number</span>
-            </label>
-            <label className="input input-bordered flex items-center gap-2">
-              <FaPhoneAlt />
-              <input
-                {...formik.getFieldProps("AgentNumber")}
-                onFocus={() => formik.setFieldTouched("AgentNumber", true)}
-                type="text"
-                // onChange={(e) => handleChange("agentNumber", e.target.value)}
-                placeholder="01712345678"
-                className="grow placeholder-gray-400 text-sm"
-              />
-            </label>
-            {formik.errors.AgentNumber && formik.touched.AgentNumber && (
-              <div className="text-red-500 mt-2">
-                {formik.errors.AgentNumber}
-              </div>
-            )}
-          </div>
+          {/* Agent number/ Recipient part */}
+          {pageTitle === "Send Money" ? (
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text text-lg">Recipient</span>
+              </label>
+              <label className="input input-bordered flex items-center gap-2">
+                <FaPhoneAlt />
+                <input
+                  onFocus={() => formik.setFieldTouched("Recipient", true)}
+                  {...formik.getFieldProps("Recipient")}
+                  type="text"
+                  placeholder="01712345678"
+                  className="grow placeholder-gray-400 text-sm"
+                />
+              </label>
+              {formik.errors.Recipient && formik.touched.Recipient && (
+                <div className="text-red-500 mt-2">
+                  {formik.errors.Recipient}
+                </div>
+              )}
+            </div>
+          ) : (
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text text-lg">
+                  {pageTitle === "Send Money" ? "Recipient" : "Agent"}
+                </span>
+              </label>
+              <label className="input input-bordered flex items-center gap-2">
+                <FaPhoneAlt />
+                <input
+                  onFocus={() => formik.setFieldTouched("AgentNumber", true)}
+                  {...formik.getFieldProps("AgentNumber")}
+                  type="text"
+                  placeholder="01712345678"
+                  className="grow placeholder-gray-400 text-sm"
+                />
+              </label>
+              {formik.errors.AgentNumber && formik.touched.AgentNumber && (
+                <div className="text-red-500 mt-2">
+                  {formik.errors.AgentNumber}
+                </div>
+              )}
+            </div>
+          )}
 
           {/* PIN part */}
           <div className="form-control relative">
@@ -262,7 +311,11 @@ const TransactionFormat = ({
                           createdTx?.amount -
                           createdTx?.charge
                         ).toFixed(2)
-                      : userDetails?.balance}
+                      : (
+                          userDetails?.balance -
+                          createdTx.amount -
+                          createdTx.charge
+                        ).toFixed(2)}
                   </span>
                 </h5>
               </div>
