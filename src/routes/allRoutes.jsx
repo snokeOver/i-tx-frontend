@@ -20,6 +20,7 @@ import AgentDashboard from "../components/dashboard/agent/AgentDashboard";
 import PendingTxForAgent from "../components/dashboard/agent/PendingTxForAgent";
 import CashIn from "../components/dashboard/user/CashIn";
 import SendMoney from "../components/dashboard/user/SendMoney";
+import HistoryAgent from "../components/dashboard/agent/HistoryAgent";
 // import PrivateRoute from "./PrivateRoute";
 // import ParticipatedSurveys from "../components/dashboard/user/ParticipatedSurveys";
 // import ReportedSurveys from "../components/dashboard/user/ReportedSurveys";
@@ -90,7 +91,7 @@ const router = createBrowserRouter([
       },
       {
         path: "tx-history",
-        element: <AgentDashboard />,
+        element: <HistoryAgent />,
       },
     ],
   },

@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import ToggleBtn from "../shared/ToggleBtn";
 import SingleTxRow from "./SingleTxRow";
 import { FaCheck } from "react-icons/fa";
+import { ImCancelCircle } from "react-icons/im";
 import ActionButton from "../../shared/ActionButton";
 import useAuth from "../../../hooks/useAuth";
 import useUpdateData from "../../../hooks/useUpdateData";
@@ -16,6 +17,9 @@ const PendingTxForAgent = () => {
 
   const [openModal, setOpenModal] = useState(false);
   const [currentData, setCurrentData] = useState({});
+  const [option, setOption] = useState("Pending");
+  const [rejectReason, setRejectReason] = useState("");
+
   const updateTxRequest = useUpdateData();
 
   const toggleHandler = (e) => {
@@ -65,6 +69,15 @@ const PendingTxForAgent = () => {
     setOpenModal(false);
     // navigate("/dashboard/cash-out");
   };
+
+  // option change to set current data
+  useEffect(() => {
+    setCurrentData((prevData) => ({
+      ...prevData,
+      status: option,
+      txType: type,
+    }));
+  }, [option]);
 
   return (
     <>
@@ -143,28 +156,63 @@ const PendingTxForAgent = () => {
               </div>
             </div>
 
-            <div className="flex justify-center w-full my-10">
-              <select
-                value={currentData?.status || "Pending"}
-                onChange={(e) =>
-                  setCurrentData((prevData) => ({
-                    ...prevData,
-                    status: e.target.value,
-                    txType: type,
-                  }))
-                }
-                className="select select-bordered w-full max-w-xs"
+            <div className="grid grid-cols-2 gap-1 text-lg my-10">
+              <button
+                onClick={() => setOption("Completed")}
+                className={`flex gap-2 rounded-md justify-center items-center hover:bg-green-200  hover:text-gray-900  ${
+                  option === "Completed"
+                    ? "bg-green-200 text-gray-900 duration-300"
+                    : "dark:bg-gray-700 bg-gray-200 duration-300"
+                }`}
               >
-                <option value="Pending">Select a Status</option>
-                <option value="Completed">Completed</option>
-                <option value="Rejected">Rejected</option>
-              </select>
+                <FaCheck className="text-green-500" />
+                <span>Completed</span>
+              </button>
+              <button
+                onClick={() => setOption("Rejected")}
+                className={`flex gap-2 rounded-md justify-center items-center hover:bg-green-200  hover:text-gray-900  ${
+                  option === "Rejected"
+                    ? "bg-green-200 text-gray-900 duration-300"
+                    : "dark:bg-gray-700 bg-gray-200 duration-300"
+                }`}
+              >
+                <ImCancelCircle className="text-red-500" />
+                <span>Rejected</span>
+              </button>
             </div>
+
+            {/* Reject Reason selection */}
+
+            {option === "Rejected" && (
+              <div className="flex justify-center w-full my-10">
+                <select
+                  value={currentData?.rejectReason || "No"}
+                  onChange={(e) =>
+                    setCurrentData((prevData) => ({
+                      ...prevData,
+                      rejectReason: e.target.value,
+                    }))
+                  }
+                  className="select select-bordered w-full max-w-xs"
+                >
+                  <option value="No">Select a Reason</option>
+                  <option value="User Limit">User Limit</option>
+                  <option value="Agent Limit">Agent Limit</option>
+                  <option value="Technical Error">Technical Error</option>
+                </select>
+              </div>
+            )}
 
             <div onClick={handleUpdate} className="form-control  mb-5  mx-auto">
               <ActionButton
-                buttonText="Verify & Update"
-                isDisable={currentData?.status === "Pending" ? true : false}
+                buttonText="Confirm Update"
+                isDisable={
+                  currentData?.status === "Pending"
+                    ? true
+                    : false || (option && currentData.rejectReason === "No")
+                    ? true
+                    : false
+                }
               />
             </div>
           </div>

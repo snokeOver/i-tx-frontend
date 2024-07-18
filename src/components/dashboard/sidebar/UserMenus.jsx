@@ -9,11 +9,7 @@ const UserMenus = () => {
   return (
     <>
       {/* Statistics */}
-      <DynamicNavLinks
-        address="/dashboard"
-        name="User Statistics"
-        icon={BsGraphUp}
-      />
+      <DynamicNavLinks address="/dashboard" name="Dashboard" icon={BsGraphUp} />
 
       {/* Cash Out */}
       <DynamicNavLinks

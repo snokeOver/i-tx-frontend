@@ -325,7 +325,10 @@ const TransactionFormat = ({
               onClick={handleOkay}
               className="form-control mt-16 mb-5  mx-auto"
             >
-              <ActionButton buttonText="Okay" />
+              <ActionButton
+                buttonText="Okay"
+                isDisable={userDetails.status === "Active" ? false : true}
+              />
             </div>
           </div>
         </div>
