@@ -83,7 +83,7 @@ const TransactionFormat = ({
         "noSkip",
         [path]
       );
-      console.log(savedTransaction);
+      // console.log(savedTransaction);
       setCreatedTx(savedTransaction);
       setOpenModal(true);
       action.resetForm();

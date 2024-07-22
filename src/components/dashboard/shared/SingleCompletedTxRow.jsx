@@ -1,8 +1,15 @@
 import { TbCurrencyTaka } from "react-icons/tb";
 import { formatDateTime } from "../../../helper/helperFunction";
-const SingleCompletedTxRow = ({ singlePendingTx, index, rowFor }) => {
-  const { userNumber, agentNumber, amount, createdAt, txType, charge } =
-    singlePendingTx;
+const SingleCompletedTxRow = ({ singleCompletedTx, index, rowFor }) => {
+  const {
+    userNumber,
+    agentNumber,
+    recipientNumber,
+    amount,
+    createdAt,
+    txType,
+    charge,
+  } = singleCompletedTx;
 
   return (
     <>
@@ -25,13 +32,16 @@ const SingleCompletedTxRow = ({ singlePendingTx, index, rowFor }) => {
             </span>
           </div>
         </td>
-        <td>{rowFor === "User" ? agentNumber : userNumber}</td>
+        <td>
+          {rowFor === "Agent" ? userNumber : agentNumber || recipientNumber}
+        </td>
+        {rowFor === "Admin" && <td> {userNumber}</td>}
 
         <td className="min-w-20">
           <span
             className={`${
-              txType === "Cash Out" ? "bg-green-500 " : "bg-blue-500"
-            } text-gray-800 p-1 rounded-md`}
+              txType === "Cash Out" ? "bg-green-500 " : "bg-blue-400"
+            } text-gray-800 p-1 md:px-2 rounded-md`}
           >
             {txType}
           </span>

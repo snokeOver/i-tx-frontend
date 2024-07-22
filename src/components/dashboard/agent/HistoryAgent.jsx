@@ -40,7 +40,7 @@ const HistoryAgent = () => {
         <ToggleBtn
           toggle={toggle}
           toggleHandler={toggleHandler}
-          firstText="Conpleted"
+          firstText="Completed"
           secondText="Rejected"
         />
       </div>
@@ -64,19 +64,19 @@ const HistoryAgent = () => {
           actionBtnNumbers={0}
         >
           {twentyAgentTxHistory &&
-            twentyAgentTxHistory?.map((singlePendingTx, index) =>
+            twentyAgentTxHistory?.map((singlegTx, index) =>
               toggle ? (
                 <SingleRejectedTxRow
                   index={index}
-                  key={singlePendingTx._id}
-                  singlePendingTx={singlePendingTx}
+                  key={singlegTx._id}
+                  singleRejectedTx={singlegTx}
                   rowFor="Agent"
                 />
               ) : (
                 <SingleCompletedTxRow
                   index={index}
-                  key={singlePendingTx._id}
-                  singlePendingTx={singlePendingTx}
+                  key={singlegTx._id}
+                  singleCompletedTx={singlegTx}
                   rowFor="Agent"
                 />
               )

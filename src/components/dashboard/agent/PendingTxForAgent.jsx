@@ -18,7 +18,6 @@ const PendingTxForAgent = () => {
   const [openModal, setOpenModal] = useState(false);
   const [currentData, setCurrentData] = useState({});
   const [option, setOption] = useState("Pending");
-  const [rejectReason, setRejectReason] = useState("");
 
   const updateTxRequest = useUpdateData();
 
@@ -92,7 +91,6 @@ const PendingTxForAgent = () => {
 
       <InitialPageStructure
         pageName="Pending Tx"
-        pageTitle={`${toggle ? "Pending Cash In" : "Pending Cash Out"}`}
         error={allPendingTxError}
         isPending={pendingTxPending}
         data={allPendingTx || []}

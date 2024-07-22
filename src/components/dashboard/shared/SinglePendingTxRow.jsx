@@ -1,26 +1,32 @@
 import { TbCurrencyTaka } from "react-icons/tb";
 import { formatDateTime } from "../../../helper/helperFunction";
 
-const SingleRejectedTxRow = ({ singleRejectedTx, index, rowFor }) => {
+const SinglePendingTxRow = ({ singlePendingTx, index, rowFor }) => {
   const {
+    userNumber,
     agentNumber,
     recipientNumber,
-    userNumber,
     amount,
     createdAt,
     txType,
-    rejectReason,
-  } = singleRejectedTx;
+    charge,
+  } = singlePendingTx;
 
   return (
     <>
-      <tr className="cursor-pointer dark:hover:bg-gray-800 hover:bg-gray-400 hover:scale-[1.02] duration-500 text-[11px] lg:text-xs">
+      <tr className="cursor-pointer dark:hover:bg-gray-800 hover:bg-gray-400 hover:scale-[1.02] duration-500">
         <th>{index + 1}</th>
         <td>{formatDateTime(createdAt)}</td>
+        <td className="flex items-center gap-1">
+          <TbCurrencyTaka className="text-lg" />
+          <span className="text-prime">{amount.toFixed(2)}</span>
+        </td>
         <td>
           <div className="flex items-center">
             <TbCurrencyTaka className="text-base" />
-            <span className="text-prime">{amount.toFixed(2)}</span>
+            <span className={`${rowFor === "User" ? "" : "text-prime"}`}>
+              {charge.toFixed(2)}
+            </span>
           </div>
         </td>
 
@@ -38,11 +44,9 @@ const SingleRejectedTxRow = ({ singleRejectedTx, index, rowFor }) => {
             {txType}
           </span>
         </td>
-
-        <td className="text-prime">{rejectReason}</td>
       </tr>
     </>
   );
 };
 
-export default SingleRejectedTxRow;
+export default SinglePendingTxRow;

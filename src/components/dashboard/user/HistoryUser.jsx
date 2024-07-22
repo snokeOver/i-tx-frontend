@@ -40,7 +40,7 @@ const HistoryUser = () => {
         <ToggleBtn
           toggle={toggle}
           toggleHandler={toggleHandler}
-          firstText="Conpleted"
+          firstText="Completed"
           secondText="Rejected"
         />
       </div>
@@ -64,19 +64,19 @@ const HistoryUser = () => {
           actionBtnNumbers={0}
         >
           {tenUserTxHistory &&
-            tenUserTxHistory?.map((singlePendingTx, index) =>
+            tenUserTxHistory?.map((singleTx, index) =>
               toggle ? (
                 <SingleRejectedTxRow
                   index={index}
-                  key={singlePendingTx._id}
-                  singlePendingTx={singlePendingTx}
+                  key={singleTx._id}
+                  singleRejectedTx={singleTx}
                   rowFor="User"
                 />
               ) : (
                 <SingleCompletedTxRow
                   index={index}
-                  key={singlePendingTx._id}
-                  singlePendingTx={singlePendingTx}
+                  key={singleTx._id}
+                  singleCompletedTx={singleTx}
                   rowFor="User"
                 />
               )

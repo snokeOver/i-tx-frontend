@@ -22,6 +22,7 @@ import CashIn from "../components/dashboard/user/CashIn";
 import SendMoney from "../components/dashboard/user/SendMoney";
 import HistoryAgent from "../components/dashboard/agent/HistoryAgent";
 import HistoryUser from "../components/dashboard/user/HistoryUser";
+import MonitorAllTx from "../components/dashboard/admin/MonitorAllTx";
 // import PrivateRoute from "./PrivateRoute";
 // import ParticipatedSurveys from "../components/dashboard/user/ParticipatedSurveys";
 // import ReportedSurveys from "../components/dashboard/user/ReportedSurveys";
@@ -147,10 +148,10 @@ const router = createBrowserRouter([
         path: "manage-users",
         element: <ManageUsers />,
       },
-      // {
-      //   path: "monitor-tx",
-      //   element: <MonitorAllTx />,
-      // },
+      {
+        path: "monitor-tx",
+        element: <MonitorAllTx />,
+      },
     ],
   },
 ]);
