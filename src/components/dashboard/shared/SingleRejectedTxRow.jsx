@@ -1,8 +1,8 @@
 import { TbCurrencyTaka } from "react-icons/tb";
 import { formatDateTime } from "../../../helper/helperFunction";
 
-const SingleRejectedTxRow = ({ singlePendingTx, index }) => {
-  const { userNumber, amount, createdAt, txType, rejectReason } =
+const SingleRejectedTxRow = ({ singlePendingTx, index, rowFor }) => {
+  const { userNumber, agentNumber, amount, createdAt, txType, rejectReason } =
     singlePendingTx;
 
   return (
@@ -17,7 +17,7 @@ const SingleRejectedTxRow = ({ singlePendingTx, index }) => {
           </div>
         </td>
 
-        <td>{userNumber}</td>
+        <td>{rowFor === "User" ? agentNumber : userNumber}</td>
 
         <td>{txType}</td>
         <td className="text-prime">{rejectReason}</td>

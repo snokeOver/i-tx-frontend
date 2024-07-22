@@ -3,10 +3,10 @@ import InitialPageStructure from "../shared/InitialPageStructure";
 import TableViewStructure from "../shared/TableViewStructure";
 import { useEffect, useState } from "react";
 import ToggleBtn from "../shared/ToggleBtn";
-import SingleRejectedTxRow from "../shared/SingleRejectedTxRow";
 import SingleCompletedTxRow from "../shared/SingleCompletedTxRow";
+import SingleRejectedTxRow from "../shared/SingleRejectedTxRow";
 
-const HistoryAgent = () => {
+const HistoryUser = () => {
   const [toggle, setToggle] = useState(false);
   const [status, setStatus] = useState("Completed");
 
@@ -15,12 +15,12 @@ const HistoryAgent = () => {
   };
 
   const {
-    data: twentyAgentTxHistory,
-    isPending: twentyAgentTxHistoryPending,
-    error: twentyAgentTxHistoryError,
+    data: tenUserTxHistory,
+    isPending: tenUserTxHistoryPending,
+    error: tenUserTxHistoryError,
     refetch: allPendingRefetch,
   } = useGetData({
-    apiRoute: "agent-tx-history",
+    apiRoute: "user-tx-history",
     additionalQuerry: `status=${status}`,
   });
 
@@ -48,37 +48,37 @@ const HistoryAgent = () => {
       <InitialPageStructure
         pageName="Pending Tx"
         pageTitle={`${toggle ? "Rejected Tx" : "Completed Tx"}`}
-        error={twentyAgentTxHistoryError}
-        isPending={twentyAgentTxHistoryPending}
-        data={twentyAgentTxHistory || []}
+        error={tenUserTxHistoryError}
+        isPending={tenUserTxHistoryPending}
+        data={tenUserTxHistory || []}
         emptyDataMsg={`No ${toggle ? " Rejected" : "Completed"} Tx To Show!`}
         totalName={`${toggle ? "Rejected" : "Completed"} Tx`}
       >
         {/* Table section */}
         <TableViewStructure
-          data={twentyAgentTxHistory || []}
+          data={tenUserTxHistory || []}
           tabCols={
             toggle
-              ? ["Time & Date", "Amount", "Customer", "Tx Type", "Reason"]
-              : ["Time & Date", "Amount", "Commission", "Customer", "Tx Type"]
+              ? ["Time & Date", "Amount", "Agent", "Tx Type", "Reason"]
+              : ["Time & Date", "Amount", "Fees", "Agent", "Tx Type"]
           }
           actionBtnNumbers={0}
         >
-          {twentyAgentTxHistory &&
-            twentyAgentTxHistory?.map((singlePendingTx, index) =>
+          {tenUserTxHistory &&
+            tenUserTxHistory?.map((singlePendingTx, index) =>
               toggle ? (
                 <SingleRejectedTxRow
                   index={index}
                   key={singlePendingTx._id}
                   singlePendingTx={singlePendingTx}
-                  rowFor="Agent"
+                  rowFor="User"
                 />
               ) : (
                 <SingleCompletedTxRow
                   index={index}
                   key={singlePendingTx._id}
                   singlePendingTx={singlePendingTx}
-                  rowFor="Agent"
+                  rowFor="User"
                 />
               )
             )}
@@ -88,4 +88,4 @@ const HistoryAgent = () => {
   );
 };
 
-export default HistoryAgent;
+export default HistoryUser;

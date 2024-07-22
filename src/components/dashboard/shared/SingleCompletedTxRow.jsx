@@ -1,7 +1,8 @@
 import { TbCurrencyTaka } from "react-icons/tb";
 import { formatDateTime } from "../../../helper/helperFunction";
-const SingleCompletedTxRow = ({ singlePendingTx, index }) => {
-  const { userNumber, amount, createdAt, txType, charge } = singlePendingTx;
+const SingleCompletedTxRow = ({ singlePendingTx, index, rowFor }) => {
+  const { userNumber, agentNumber, amount, createdAt, txType, charge } =
+    singlePendingTx;
 
   return (
     <>
@@ -11,16 +12,20 @@ const SingleCompletedTxRow = ({ singlePendingTx, index }) => {
         <td>
           <div className="flex items-center gap-1">
             <TbCurrencyTaka className="text-lg" />
-            <span>{amount.toFixed(2)}</span>
+            <span className={`${rowFor === "User" ? "text-prime" : ""}`}>
+              {amount.toFixed(2)}
+            </span>
           </div>
         </td>
         <td>
           <div className="flex items-center gap-1">
             <TbCurrencyTaka className="text-lg" />
-            <span className="text-prime">{charge.toFixed(2)}</span>
+            <span className={`${rowFor === "User" ? "" : "text-prime"}`}>
+              {charge.toFixed(2)}
+            </span>
           </div>
         </td>
-        <td>{userNumber}</td>
+        <td>{rowFor === "User" ? agentNumber : userNumber}</td>
 
         <td className="flex justify-center">{txType}</td>
       </tr>
