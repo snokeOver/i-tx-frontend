@@ -115,10 +115,10 @@ const Navbar = () => {
         {/* Logo Part */}
         <div>
           <NavLink
-            className="text-3xl font-semibold font-rubik flex items-center"
+            className="text-3xl font-semibold font-rubik flex items-center justify-center"
             to="/"
           >
-            <FaMoneyBillTransfer className="w-14 h-14  mr-1" />
+            <FaMoneyBillTransfer className="w-10 h-10 md:w-14 md:h-14  mr-1" />
 
             <div className="hidden md:flex ">
               <SiteName />
@@ -134,7 +134,7 @@ const Navbar = () => {
       <div className="navbar-end">
         {/* Blance Part */}
         {userDetails && showBalance ? (
-          <h3 className="mr-10 flex items-center">
+          <h3 className="mr-3 md:mr-10 flex items-center">
             <span>
               <TbCurrencyTaka className="text-xl" />
             </span>
@@ -143,7 +143,7 @@ const Navbar = () => {
         ) : (
           <button
             onClick={() => setShowBalance(true)}
-            className="btn mr-10 border bg-transparent border-prime text-gray-700 dark:text-gray-400 py-2 "
+            className="btn mr-3 md:mr-10 border bg-transparent border-prime text-gray-700 dark:text-gray-400 py-2 "
           >
             Show Balance
           </button>
@@ -203,12 +203,6 @@ const Navbar = () => {
                 </li>
               </ul>
             </div>
-            <a
-              onClick={handleLogOut}
-              className="btn border bg-transparent hover:bg-transparent  hover:border-prime hover:text-sky-800 dark:hover:text-gray-100 border-prime py-2 px-3 rounded-sm  text-prime btn-sm ml-2"
-            >
-              Logout
-            </a>
           </>
         ) : (
           <>

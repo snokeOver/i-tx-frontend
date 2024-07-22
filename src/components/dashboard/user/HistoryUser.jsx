@@ -47,7 +47,6 @@ const HistoryUser = () => {
 
       <InitialPageStructure
         pageName="Pending Tx"
-        pageTitle={`${toggle ? "Rejected Tx" : "Completed Tx"}`}
         error={tenUserTxHistoryError}
         isPending={tenUserTxHistoryPending}
         data={tenUserTxHistory || []}

@@ -88,10 +88,15 @@ img {
     url("https://i.ibb.co/3MfRmQZ/login-Abstract.jpg");
 }
 
-/* design of table */
+/* Custom CSS for table */
 .table
   :where(thead tr, tbody tr:not(:last-child), tbody tr:first-child:last-child) {
   border-bottom-width: 0px;
+}
+
+.table :where(th, td) {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
 }
 
 /* Custom styles for input at search btn */

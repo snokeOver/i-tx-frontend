@@ -23,7 +23,7 @@ const InitialPageStructure = ({
     <>
       <PageHelmet pageName={pageName} />
       <Container>
-        <PageTitle title={pageTitle} />
+        {pageTitle && <PageTitle title={pageTitle} />}
 
         <div className=" rounded-lg bg-base-100 pb-5 md:pb-10">
           <div className="text-center flex-col">
