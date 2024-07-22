@@ -36,7 +36,7 @@ const PendingTxForAgent = () => {
     additionalQuerry: `type=${type}`,
   });
 
-  // Refetch when type change
+  // Refetch history data when type(cash out /cash in) change
   useEffect(() => {
     allPendingRefetch();
   }, [type]);
@@ -54,10 +54,10 @@ const PendingTxForAgent = () => {
 
   // Handle Update Button
   const handleUpdate = async () => {
-    console.log(currentData);
+    // console.log(currentData);
     await updateTxRequest(
       userDetails._id,
-      "Role",
+      "Tx",
       "update-pending-tx",
       currentData,
       "noSkip",
@@ -125,7 +125,10 @@ const PendingTxForAgent = () => {
           <form method="dialog">
             {/* if there is a button in form, it will close the modal */}
             <button
-              onClick={() => setOpenModal(false)}
+              onClick={() => {
+                setOpenModal(false);
+                setOption("Pending");
+              }}
               className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
             >
               ✕
@@ -166,7 +169,7 @@ const PendingTxForAgent = () => {
                 }`}
               >
                 <FaCheck className="text-green-500" />
-                <span>Completed</span>
+                <span>Accepted</span>
               </button>
               <button
                 onClick={() => setOption("Rejected")}
@@ -186,7 +189,7 @@ const PendingTxForAgent = () => {
             {option === "Rejected" && (
               <div className="flex justify-center w-full my-10">
                 <select
-                  value={currentData?.rejectReason || "No"}
+                  value={currentData?.rejectReason || "None"}
                   onChange={(e) =>
                     setCurrentData((prevData) => ({
                       ...prevData,
@@ -195,7 +198,7 @@ const PendingTxForAgent = () => {
                   }
                   className="select select-bordered w-full max-w-xs"
                 >
-                  <option value="No">Select a Reason</option>
+                  <option value="None">Select a Reason</option>
                   <option value="User Limit">User Limit</option>
                   <option value="Agent Limit">Agent Limit</option>
                   <option value="Technical Error">Technical Error</option>
@@ -203,15 +206,15 @@ const PendingTxForAgent = () => {
               </div>
             )}
 
-            <div onClick={handleUpdate} className="form-control  mb-5  mx-auto">
+            <div className="form-control  mb-5  mx-auto">
               <ActionButton
+                onClick={handleUpdate}
                 buttonText="Confirm Update"
                 isDisable={
-                  currentData?.status === "Pending"
-                    ? true
-                    : false || (option && currentData.rejectReason === "No")
-                    ? true
-                    : false
+                  option === "Completed" ||
+                  (option === "Rejected" && currentData.rejectReason !== "None")
+                    ? false
+                    : true
                 }
               />
             </div>

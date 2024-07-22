@@ -15,9 +15,9 @@ const HistoryAgent = () => {
   };
 
   const {
-    data: tenAgentTxHistory,
-    isPending: tenAgentTxHistoryPending,
-    error: tenAgentTxHistoryError,
+    data: twentyAgentTxHistory,
+    isPending: twentyAgentTxHistoryPending,
+    error: twentyAgentTxHistoryError,
     refetch: allPendingRefetch,
   } = useGetData({
     apiRoute: "agent-tx-history",
@@ -48,15 +48,15 @@ const HistoryAgent = () => {
       <InitialPageStructure
         pageName="Pending Tx"
         pageTitle={`${toggle ? "Rejected Tx" : "Completed Tx"}`}
-        error={tenAgentTxHistoryError}
-        isPending={tenAgentTxHistoryPending}
-        data={tenAgentTxHistory || []}
+        error={twentyAgentTxHistoryError}
+        isPending={twentyAgentTxHistoryPending}
+        data={twentyAgentTxHistory || []}
         emptyDataMsg={`No ${toggle ? " Rejected" : "Completed"} Tx To Show!`}
         totalName={`${toggle ? "Rejected" : "Completed"} Tx`}
       >
         {/* Table section */}
         <TableViewStructure
-          data={tenAgentTxHistory || []}
+          data={twentyAgentTxHistory || []}
           tabCols={
             toggle
               ? ["Time & Date", "Amount", "Customer", "Tx Type", "Reason"]
@@ -64,8 +64,8 @@ const HistoryAgent = () => {
           }
           actionBtnNumbers={0}
         >
-          {tenAgentTxHistory &&
-            tenAgentTxHistory?.map((singlePendingTx, index) =>
+          {twentyAgentTxHistory &&
+            twentyAgentTxHistory?.map((singlePendingTx, index) =>
               toggle ? (
                 <SingleRejectedTxRow
                   index={index}
