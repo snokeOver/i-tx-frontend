@@ -2,17 +2,13 @@ import useGetData from "../../../hooks/useGetData";
 import InitialPageStructure from "../shared/InitialPageStructure";
 import TableViewStructure from "../shared/TableViewStructure";
 import { useEffect, useState } from "react";
-import ToggleBtn from "../shared/ToggleBtn";
 import SingleCompletedTxRow from "../shared/SingleCompletedTxRow";
 import SingleRejectedTxRow from "../shared/SingleRejectedTxRow";
+import ToggleThreeBtn from "../shared/ToggleThreeBtn";
+import SinglePendingTxRow from "../shared/SinglePendingTxRow";
 
 const HistoryUser = () => {
-  const [toggle, setToggle] = useState(false);
-  const [status, setStatus] = useState("Completed");
-
-  const toggleHandler = (e) => {
-    setToggle(e.target.checked);
-  };
+  const [status, setStatus] = useState("Pending");
 
   const {
     data: tenUserTxHistory,
@@ -29,19 +25,15 @@ const HistoryUser = () => {
     allPendingRefetch();
   }, [status]);
 
-  // Handle toggle
-  useEffect(() => {
-    setStatus((prev) => (prev === "Completed" ? "Rejected" : "Completed"));
-  }, [toggle]);
-
   return (
     <>
       <div className="max-w-lg mx-auto my-4">
-        <ToggleBtn
-          toggle={toggle}
-          toggleHandler={toggleHandler}
-          firstText="Completed"
-          secondText="Rejected"
+        <ToggleThreeBtn
+          setStatus={setStatus}
+          status={status}
+          firstText="Pending"
+          secondText="Completed"
+          thirdText="Rejected"
         />
       </div>
 
@@ -50,33 +42,42 @@ const HistoryUser = () => {
         error={tenUserTxHistoryError}
         isPending={tenUserTxHistoryPending}
         data={tenUserTxHistory || []}
-        emptyDataMsg={`No ${toggle ? " Rejected" : "Completed"} Tx To Show!`}
-        totalName={`${toggle ? "Rejected" : "Completed"} Tx`}
+        emptyDataMsg={`No ${status} Tx To Show!`}
+        totalName={`${status} Tx`}
       >
         {/* Table section */}
         <TableViewStructure
           data={tenUserTxHistory || []}
           tabCols={
-            toggle
-              ? ["Time & Date", "Amount", "Agent", "Tx Type", "Reason"]
-              : ["Time & Date", "Amount", "Fees", "Agent", "Tx Type"]
+            status === "Pending"
+              ? ["Time & Date", "Amount", "Fees", "Agent/Recipient", "Tx Type"]
+              : status === "Completed"
+              ? ["Time & Date", "Amount", "Fees", "Agent/Recipient", "Tx Type"]
+              : ["Time & Date", "Amount", "Agent", "Tx Type", "Reason"]
           }
           actionBtnNumbers={0}
         >
           {tenUserTxHistory &&
             tenUserTxHistory?.map((singleTx, index) =>
-              toggle ? (
-                <SingleRejectedTxRow
+              status === "Pending" ? (
+                <SinglePendingTxRow
                   index={index}
                   key={singleTx._id}
-                  singleRejectedTx={singleTx}
+                  singlePendingTx={singleTx}
                   rowFor="User"
                 />
-              ) : (
+              ) : status === "Completed" ? (
                 <SingleCompletedTxRow
                   index={index}
                   key={singleTx._id}
                   singleCompletedTx={singleTx}
+                  rowFor="User"
+                />
+              ) : (
+                <SingleRejectedTxRow
+                  index={index}
+                  key={singleTx._id}
+                  singleRejectedTx={singleTx}
                   rowFor="User"
                 />
               )
