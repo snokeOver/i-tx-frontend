@@ -23,6 +23,7 @@ import SendMoney from "../components/dashboard/user/SendMoney";
 import HistoryAgent from "../components/dashboard/agent/HistoryAgent";
 import HistoryUser from "../components/dashboard/user/HistoryUser";
 import MonitorAllTx from "../components/dashboard/admin/MonitorAllTx";
+import AdminStatistics from "../components/dashboard/admin/AdminStatistics";
 // import PrivateRoute from "./PrivateRoute";
 // import ParticipatedSurveys from "../components/dashboard/user/ParticipatedSurveys";
 // import ReportedSurveys from "../components/dashboard/user/ReportedSurveys";
@@ -142,7 +143,7 @@ const router = createBrowserRouter([
       // Admin routes
       {
         path: "",
-        element: <UserStatistics />,
+        element: <AdminStatistics />,
       },
       {
         path: "manage-users",

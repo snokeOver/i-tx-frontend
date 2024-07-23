@@ -16,6 +16,9 @@ const Navbar = () => {
   const { loading, userDetails, logOut } = useAuth();
   const navigate = useNavigate();
   const [showBalance, setShowBalance] = useState(false);
+  const userDashboardPath = "/dashboard";
+  const adminDashboardPath = "/dashboard/admin";
+  const agentDashboardPath = "/dashboard/agent";
 
   const makeAlert = useSweetAlert();
 
@@ -70,7 +73,13 @@ const Navbar = () => {
             <>
               {/* Dashboard link */}
               <NavigationLink
-                destination={`/dashboard/admin`}
+                destination={`${
+                  userDetails.userRole === "Admin"
+                    ? adminDashboardPath
+                    : userDetails.userRole === "Agent"
+                    ? agentDashboardPath
+                    : userDashboardPath
+                }`}
                 name="Dashboard"
                 nested="false"
               />
@@ -196,7 +205,16 @@ const Navbar = () => {
                 />
 
                 {/* Dashboard link */}
-                <SubNavLink destination="/dashboard/admin" name="Dashboard" />
+                <SubNavLink
+                  destination={`${
+                    userDetails.userRole === "Admin"
+                      ? adminDashboardPath
+                      : userDetails.userRole === "Agent"
+                      ? agentDashboardPath
+                      : userDashboardPath
+                  }`}
+                  name="Dashboard"
+                />
 
                 <li
                   onClick={handleLogOut}

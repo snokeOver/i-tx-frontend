@@ -91,7 +91,6 @@ const ManageUsers = () => {
   return (
     <InitialPageStructure
       pageName="Manage User"
-      pageTitle="All registered user"
       error={error}
       isPending={isPending}
       data={allUsers || []}

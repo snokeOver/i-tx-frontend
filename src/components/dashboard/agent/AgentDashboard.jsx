@@ -6,7 +6,7 @@ const AgentDashboard = () => {
   const { userDetails } = useAuth();
   return (
     <>
-      <PageHelmet pageName="Dashboard" />
+      <PageHelmet pageName="Agent Dashboard" />
       <Container>
         <div className=" rounded-lg bg-base-100 pb-5 md:pb-10">
           <div className="text-center flex-col py-10">

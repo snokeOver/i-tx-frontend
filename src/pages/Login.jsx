@@ -71,12 +71,12 @@ const Login = () => {
               {!chooseEmail && !choosePhone && (
                 <div className="card-body">
                   <div className=" flex gap-7 flex-col justify-center">
-                    {/* Login with google */}
+                    {/* Login with Mobile and PIN */}
                     <div onClick={handleChoosePhone} className="inline-block ">
                       <WithPhoneButton title="With Phone" />
                     </div>
 
-                    {/* Login with GitHub */}
+                    {/* Login with Email and PIN */}
                     <div onClick={handleChooseEmail} className="inline-block ">
                       <WithEmailButton title="With Email" />
                     </div>
