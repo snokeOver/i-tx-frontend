@@ -11,7 +11,14 @@ import ErrorShower from "../ErrorShower";
 const FormWithPhonePin = ({ showPin, setShowPin }) => {
   const { userLogin } = useAuth();
   const navigate = useNavigate();
-  const { setActnBtnLoading, setToastMsg } = useData();
+
+  const {
+    setActnBtnLoading,
+    setToastMsg,
+    userDashboardPath,
+    adminDashboardPath,
+    agentDashboardPath,
+  } = useData();
 
   // Initial values for the form and formik
   const initialValues = {
@@ -30,7 +37,15 @@ const FormWithPhonePin = ({ showPin, setShowPin }) => {
         const response = await userLogin(values);
         if (response.res === "Login Success") {
           setToastMsg("suc Login Successful  !");
-          navigate("/");
+          navigate(
+            `${
+              response.user.userRole === "Admin"
+                ? adminDashboardPath
+                : response.user.userRole === "Agent"
+                ? agentDashboardPath
+                : userDashboardPath
+            }`
+          );
           setActnBtnLoading(false);
         }
       } catch (err) {

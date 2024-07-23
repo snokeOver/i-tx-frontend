@@ -35,7 +35,7 @@ const AuthProvider = ({ children }) => {
       localStorage.setItem("access-token", data.token);
       localStorage.setItem("user", JSON.stringify(data.user));
       setTokenSaved(true);
-      return { res: "Login Success" };
+      return { res: "Login Success", user: data.user };
     } else {
       setTokenSaved(false);
       logOut();

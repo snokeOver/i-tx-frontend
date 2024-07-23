@@ -1,8 +1,6 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 
-import useAuth from "../hooks/useAuth.jsx";
-import useData from "../hooks/useData.jsx";
 import PageHelmet from "../components/shared/PageHelmet.jsx";
 import LogoWithTitle from "../components/shared/join_login/LogoWithTitle.jsx";
 import Container from "../components/shared/Container.jsx";
@@ -18,18 +16,7 @@ const Login = () => {
   const [choosePhone, setChoosePhone] = useState(false);
   const [chooseEmail, setChooseEmail] = useState(false);
 
-  const { logOutSuccess, setLogOutSuccess } = useAuth();
-  const { setToastMsg } = useData();
-
   const [showPin, setShowPin] = useState(false);
-
-  // Log Out success Toast
-  useEffect(() => {
-    if (logOutSuccess) {
-      setToastMsg("Log out successfull  !");
-      setLogOutSuccess(false);
-    }
-  }, [logOutSuccess]);
 
   // Handle choose Phone
   const handleChoosePhone = () => {

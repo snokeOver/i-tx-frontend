@@ -13,6 +13,10 @@ const DataProvider = ({ children }) => {
   const [currPlan, setCurrPlan] = useState("");
   const [toggle, setToggle] = useState(false);
 
+  const userDashboardPath = "/dashboard";
+  const adminDashboardPath = "/dashboard/admin";
+  const agentDashboardPath = "/dashboard/agent";
+
   const defaultTheme = "dark";
 
   const [currTheme, setCurrTheme] = useState(defaultTheme);
@@ -52,6 +56,9 @@ const DataProvider = ({ children }) => {
     setCurrPlan,
     toggle,
     setToggle,
+    userDashboardPath,
+    adminDashboardPath,
+    agentDashboardPath,
   };
 
   return (

@@ -8,7 +8,14 @@ import useAuth from "../../../hooks/useAuth";
 import ErrorShower from "../ErrorShower";
 
 const FormWithEmailPIN = ({ showPin, setShowPin }) => {
-  const { setActnBtnLoading, setToastMsg } = useData();
+  const {
+    setActnBtnLoading,
+    setToastMsg,
+    userDashboardPath,
+    adminDashboardPath,
+    agentDashboardPath,
+  } = useData();
+
   const { userLogin } = useAuth();
   const navigate = useNavigate();
 
@@ -29,7 +36,15 @@ const FormWithEmailPIN = ({ showPin, setShowPin }) => {
         const response = await userLogin(values);
         if (response.res === "Login Success") {
           setToastMsg("suc Login Successful  !");
-          navigate("/");
+          navigate(
+            `${
+              response.user.userRole === "Admin"
+                ? adminDashboardPath
+                : response.user.userRole === "Agent"
+                ? agentDashboardPath
+                : userDashboardPath
+            }`
+          );
           setActnBtnLoading(false);
         }
       } catch (err) {
