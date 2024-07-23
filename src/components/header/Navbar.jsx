@@ -133,21 +133,24 @@ const Navbar = () => {
       {/* Navbar End */}
       <div className="navbar-end">
         {/* Blance Part */}
-        {userDetails && showBalance ? (
-          <h3 className="mr-3 md:mr-10 flex items-center">
-            <span>
-              <TbCurrencyTaka className="text-xl" />
-            </span>
-            <span className="text-prime">{userDetails.balance.toFixed(2)}</span>
-          </h3>
-        ) : (
-          <button
-            onClick={() => setShowBalance(true)}
-            className="btn mr-3 md:mr-10 border bg-transparent border-prime text-gray-700 dark:text-gray-400 py-2 "
-          >
-            Show Balance
-          </button>
-        )}
+        {userDetails.mobile &&
+          (showBalance ? (
+            <h3 className="mr-3 md:mr-10 flex items-center">
+              <span>
+                <TbCurrencyTaka className="text-xl" />
+              </span>
+              <span className="text-prime">
+                {userDetails.balance.toFixed(2)}
+              </span>
+            </h3>
+          ) : (
+            <button
+              onClick={() => setShowBalance(true)}
+              className="btn mr-3 md:mr-10 border bg-transparent border-prime text-gray-700 dark:text-gray-400 py-2 "
+            >
+              Show Balance
+            </button>
+          ))}
 
         {/* Here the theme toggle button component */}
         <ThemeButton />

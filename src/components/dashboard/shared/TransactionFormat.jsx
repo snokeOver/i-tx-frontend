@@ -15,6 +15,7 @@ import { TbCurrencyTaka } from "react-icons/tb";
 import usePostData from "../../../hooks/usePostData";
 import { FaCheck } from "react-icons/fa6";
 import { formatDateTime } from "../../../helper/helperFunction";
+import ErrorShower from "../../shared/ErrorShower";
 
 const TransactionFormat = ({
   pageTitle,
@@ -121,13 +122,14 @@ const TransactionFormat = ({
                 }}
                 onFocus={() => formik.setFieldTouched("Amount", true)}
                 type="text"
-                placeholder="50 - 25000"
                 className="grow placeholder-gray-400 text-sm"
               />
             </label>
-            {formik.errors.Amount && formik.touched.Amount && (
-              <div className="text-red-500 mt-2">{formik.errors.Amount}</div>
-            )}
+            <div>
+              {formik.errors.Amount && formik.touched.Amount && (
+                <ErrorShower errMsg={formik.errors.Amount} />
+              )}
+            </div>
           </div>
 
           {/* Agent number/ Recipient part */}
@@ -142,22 +144,19 @@ const TransactionFormat = ({
                   onFocus={() => formik.setFieldTouched("Recipient", true)}
                   {...formik.getFieldProps("Recipient")}
                   type="text"
-                  placeholder="01712345678"
                   className="grow placeholder-gray-400 text-sm"
                 />
               </label>
-              {formik.errors.Recipient && formik.touched.Recipient && (
-                <div className="text-red-500 mt-2">
-                  {formik.errors.Recipient}
-                </div>
-              )}
+              <div>
+                {formik.errors.Recipient && formik.touched.Recipient && (
+                  <ErrorShower errMsg={formik.errors.Recipient} />
+                )}
+              </div>
             </div>
           ) : (
             <div className="form-control">
               <label className="label">
-                <span className="label-text text-lg">
-                  {pageTitle === "Send Money" ? "Recipient" : "Agent"}
-                </span>
+                <span className="label-text text-lg">Agent</span>
               </label>
               <label className="input input-bordered flex items-center gap-2">
                 <FaPhoneAlt />
@@ -165,22 +164,21 @@ const TransactionFormat = ({
                   onFocus={() => formik.setFieldTouched("AgentNumber", true)}
                   {...formik.getFieldProps("AgentNumber")}
                   type="text"
-                  placeholder="01712345678"
                   className="grow placeholder-gray-400 text-sm"
                 />
               </label>
-              {formik.errors.AgentNumber && formik.touched.AgentNumber && (
-                <div className="text-red-500 mt-2">
-                  {formik.errors.AgentNumber}
-                </div>
-              )}
+              <div>
+                {formik.errors.AgentNumber && formik.touched.AgentNumber && (
+                  <ErrorShower errMsg={formik.errors.AgentNumber} />
+                )}
+              </div>
             </div>
           )}
 
           {/* PIN part */}
           <div className="form-control relative">
             <label className="label">
-              <span className="label-text text-lg">PIN Number</span>
+              <span className="label-text text-lg">PIN</span>
             </label>
             <label className="input input-bordered flex items-center gap-2">
               <svg
@@ -199,7 +197,6 @@ const TransactionFormat = ({
                 {...formik.getFieldProps("Pin")}
                 onFocus={() => formik.setFieldTouched("Pin", true)}
                 type={showPin ? "number" : "password"}
-                placeholder="* * * * * * * * * * * *"
                 className="grow placeholder-gray-400 text-sm"
               />
               <span
@@ -213,13 +210,18 @@ const TransactionFormat = ({
                 )}
               </span>
             </label>
-            {formik.errors.Pin && formik.touched.Pin && (
-              <span className="text-red-500 mt-2">{formik.errors.Pin}</span>
-            )}
+            <div>
+              {formik.errors.Pin && formik.touched.Pin && (
+                <ErrorShower errMsg={formik.errors.Pin} />
+              )}
+            </div>
           </div>
 
           <div className="form-control pt-4 md:w-[90%] mx-auto">
-            <ActionButton buttonText={pageTitle} />
+            <ActionButton
+              buttonText={pageTitle}
+              isDisable={userDetails.status === "Pending"}
+            />
           </div>
         </form>
       </div>

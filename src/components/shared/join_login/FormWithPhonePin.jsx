@@ -6,6 +6,7 @@ import { BsEyeSlashFill, BsFillEyeFill } from "react-icons/bs";
 import { FaPhoneAlt } from "react-icons/fa";
 import useAuth from "../../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
+import ErrorShower from "../ErrorShower";
 
 const FormWithPhonePin = ({ showPin, setShowPin }) => {
   const { userLogin } = useAuth();
@@ -45,9 +46,7 @@ const FormWithPhonePin = ({ showPin, setShowPin }) => {
       {/* Phone part */}
       <div className="form-control">
         <label className="label">
-          <span className="label-text text-lg">
-            Phone Number <span className="text-red-500">*</span>
-          </span>
+          <span className="label-text text-lg">Mobile</span>
         </label>
         <label className="input input-bordered flex items-center gap-2">
           <FaPhoneAlt />
@@ -55,21 +54,20 @@ const FormWithPhonePin = ({ showPin, setShowPin }) => {
             {...formik.getFieldProps("Phone")}
             onFocus={() => formik.setFieldTouched("Phone", true)}
             type="text"
-            placeholder="01723456789"
             className="grow placeholder-gray-400 text-sm"
           />
         </label>
-        {formik.errors.Phone && formik.touched.Phone && (
-          <span className="text-red-500 mt-2">{formik.errors.Phone}</span>
-        )}
+        <div>
+          {formik.errors.Phone && formik.touched.Phone && (
+            <ErrorShower errMsg={formik.errors.Phone} />
+          )}
+        </div>
       </div>
 
       {/* PIN part */}
       <div className="form-control relative">
         <label className="label">
-          <span className="label-text text-lg">
-            PIN Number <span className="text-red-500">*</span>
-          </span>
+          <span className="label-text text-lg">PIN </span>
         </label>
         <label className="input input-bordered flex items-center gap-2">
           <svg
@@ -88,7 +86,6 @@ const FormWithPhonePin = ({ showPin, setShowPin }) => {
             {...formik.getFieldProps("Pin")}
             onFocus={() => formik.setFieldTouched("Pin", true)}
             type={showPin ? "number" : "password"}
-            placeholder="* * * * * * * * * * * *"
             className="grow placeholder-gray-400 text-sm"
           />
           <span
@@ -102,9 +99,11 @@ const FormWithPhonePin = ({ showPin, setShowPin }) => {
             )}
           </span>
         </label>
-        {formik.errors.Pin && formik.touched.Pin && (
-          <span className="text-red-500 mt-2">{formik.errors.Pin}</span>
-        )}
+        <div>
+          {formik.errors.Pin && formik.touched.Pin && (
+            <ErrorShower errMsg={formik.errors.Pin} />
+          )}
+        </div>
       </div>
 
       <div className="form-control mt-6">

@@ -55,11 +55,11 @@ const Login = () => {
 
       <Container nopad="true">
         <div className="hero  rounded-xl">
-          <div className="hero-content  w-full flex-col flex-1 mt-16 md:mt-0 my-10 relative">
+          <div className="hero-content  w-full flex-col flex-1 my-10 relative">
             {(choosePhone || chooseEmail) && (
               <button
                 onClick={handleBackButton}
-                className="btn dark:bg-gray-700 dark:hover:bg-gray-500 absolute flex items-center gap-2 left-4 text-prime top-10"
+                className="btn dark:bg-gray-700 dark:hover:bg-gray-500 absolute flex items-center gap-2 left-4 text-prime top-0 md:top-10"
               >
                 <FaLongArrowAltLeft className="text-2xl" /> <span>Back</span>
               </button>
@@ -94,8 +94,8 @@ const Login = () => {
                 <FormWithPhonePin showPin={showPin} setShowPin={setShowPin} />
               )}
 
-              <div className="flex justify-around">
-                <label className="label  flex justify-center mb-5">
+              <div className="flex flex-col sm:flex-row justify-around mb-6">
+                <label className="label  flex justify-center">
                   <span className="text-sm">Don't have an account?</span>
                   <Link
                     className="label-text-alt link link-hover text-blue-700 dark:text-blue-600 font-semibold ml-2"
@@ -104,7 +104,7 @@ const Login = () => {
                     Join Now
                   </Link>
                 </label>
-                <label className="label  flex justify-center mb-5">
+                <label className="label  flex justify-center">
                   <span className="text-sm">Forget PIN?</span>
                   <Link
                     className="label-text-alt link link-hover text-blue-700 dark:text-blue-600 font-semibold ml-2"

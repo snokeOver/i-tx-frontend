@@ -5,6 +5,7 @@ import ActionButton from "../ActionButton";
 import { BsEyeSlashFill, BsFillEyeFill } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../../../hooks/useAuth";
+import ErrorShower from "../ErrorShower";
 
 const FormWithEmailPIN = ({ showPin, setShowPin }) => {
   const { setActnBtnLoading, setToastMsg } = useData();
@@ -45,9 +46,7 @@ const FormWithEmailPIN = ({ showPin, setShowPin }) => {
 
       <div className="form-control">
         <label className="label">
-          <span className="label-text text-lg">
-            Email <span className="text-red-500">*</span>
-          </span>
+          <span className="label-text text-lg">Email</span>
         </label>
         <label className="input input-bordered flex items-center gap-2">
           <svg
@@ -64,21 +63,20 @@ const FormWithEmailPIN = ({ showPin, setShowPin }) => {
             onFocus={() => formik.setFieldTouched("Email", true)}
             type="email"
             id="email"
-            placeholder="name@domain.com"
             className="grow placeholder-gray-400 text-sm"
           />
         </label>
-        {formik.errors.Email && formik.touched.Email && (
-          <span className="text-red-500 mt-2">{formik.errors.Email}</span>
-        )}
+        <div>
+          {formik.errors.Email && formik.touched.Email && (
+            <ErrorShower errMsg={formik.errors.Email} />
+          )}
+        </div>
       </div>
 
       {/* PIN part */}
       <div className="form-control relative">
         <label className="label">
-          <span className="label-text text-lg">
-            PIN Number <span className="text-red-500">*</span>
-          </span>
+          <span className="label-text text-lg">PIN</span>
         </label>
         <label className="input input-bordered flex items-center gap-2">
           <svg
@@ -97,7 +95,6 @@ const FormWithEmailPIN = ({ showPin, setShowPin }) => {
             {...formik.getFieldProps("Pin")}
             onFocus={() => formik.setFieldTouched("Pin", true)}
             type={showPin ? "number" : "password"}
-            placeholder="* * * * * * * * * * * *"
             className="grow placeholder-gray-400 text-sm"
           />
           <span
@@ -111,9 +108,11 @@ const FormWithEmailPIN = ({ showPin, setShowPin }) => {
             )}
           </span>
         </label>
-        {formik.errors.Pin && formik.touched.Pin && (
-          <span className="text-red-500 mt-2">{formik.errors.Pin}</span>
-        )}
+        <div>
+          {formik.errors.Pin && formik.touched.Pin && (
+            <ErrorShower errMsg={formik.errors.Pin} />
+          )}
+        </div>
       </div>
 
       <div className="form-control mt-6">

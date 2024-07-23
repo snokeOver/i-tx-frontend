@@ -2,7 +2,6 @@ import { BsEyeSlashFill, BsFillEyeFill } from "react-icons/bs";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
-import useAuth from "../hooks/useAuth.jsx";
 import useData from "../hooks/useData.jsx";
 
 import PageHelmet from "../components/shared/PageHelmet.jsx";
@@ -12,29 +11,17 @@ import Container from "../components/shared/Container.jsx";
 import { signUpSchema } from "../helper/signUpSchema.js";
 import { FaPhoneAlt } from "react-icons/fa";
 import useAxios from "../hooks/useAxios.jsx";
+import ErrorShower from "../components/shared/ErrorShower.jsx";
 
 const Join = () => {
   const nsAxios = useAxios();
-  const {
-    register,
-    updateUser,
-    googleRegister,
-    githubRegister,
-    setRegiSuccess,
-  } = useAuth();
-  const {
-    setToastMsg,
-    setGBtnLoading,
-    setGitBtnLoading,
-    setActnBtnLoading,
-    gitBtnLoading,
-    gBtnLoading,
-    actnBtnLoading,
-  } = useData();
+
+  const { setToastMsg, setActnBtnLoading } = useData();
+
   const navigate = useNavigate();
 
   const [showPass, setShowPass] = useState(false);
-  const [errMsg, setErrorMsg] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
 
   // Initial values for the form and formik
   const initialValues = {
@@ -45,19 +32,6 @@ const Join = () => {
     Pin: "",
     RepeatPin: "",
     AcceptTerms: false,
-  };
-
-  // handle Firebase error while registering
-  const firebaseRegisterError = (err, email = "") => {
-    if (err.code === "auth/email-already-in-use") {
-      setErrorMsg(`"${email}" is already taken !`);
-    } else if (err.code === "auth/invalid-email") {
-      setErrorMsg(`"${email}" is invalid email !`);
-    } else setErrorMsg(`err ${err.message}`);
-
-    setActnBtnLoading(false);
-    setGBtnLoading(false);
-    setGitBtnLoading(false);
   };
 
   // Handle the sign up process(email-Pin based) using formik and validation schema design with yup
@@ -75,7 +49,8 @@ const Join = () => {
         }
         setActnBtnLoading(false);
       } catch (err) {
-        firebaseRegisterError(err, values.Email);
+        setErrorMsg(`err ${err.message}`);
+        setActnBtnLoading(false);
       } finally {
         action.resetForm();
       }
@@ -86,15 +61,15 @@ const Join = () => {
     <>
       <PageHelmet pageName="Join" />
       <Container nopad="true">
-        <div className="hero  rounded-xl py-10">
+        <div className="hero rounded-xl py-10">
           {/* form part */}
-          <div className="hero-content  flex-1 w-full flex-col mt-16 md:mt-0">
+          <div className="hero-content  flex-1 w-full flex-col mt-0">
             <LogoWithTitle title={"Join Here"} />
 
             <div className="card w-full max-w-lg shadow-2xl bg-base-100">
-              {errMsg && (
+              {errorMsg && (
                 <p className="text-red-500 text-center dark:text-yellow-400 dark:font-light  my-3">
-                  {errMsg}
+                  {errorMsg}
                 </p>
               )}
 
@@ -102,9 +77,7 @@ const Join = () => {
                 {/* Category part */}
                 <div className="form-control">
                   <label className="label">
-                    <span className="label-text text-lg">
-                      Category <span className="text-red-500">*</span>
-                    </span>
+                    <span className="label-text text-lg">Category</span>
                   </label>
                   <select
                     {...formik.getFieldProps("Category")}
@@ -119,19 +92,17 @@ const Join = () => {
                     <option value="User">User</option>
                     <option value="Agent">Agent</option>
                   </select>
-                  {formik.errors.Category && formik.touched.Category && (
-                    <div className="text-red-500 mt-2">
-                      {formik.errors.Category}
-                    </div>
-                  )}
+                  <div>
+                    {formik.errors.Category && formik.touched.Category && (
+                      <ErrorShower errMsg={formik.errors.Category} />
+                    )}
+                  </div>
                 </div>
 
                 {/* Name part */}
                 <div className="form-control">
                   <label className="label">
-                    <span className="label-text text-lg">
-                      Name <span className="text-red-500">*</span>
-                    </span>
+                    <span className="label-text text-lg">Name</span>
                   </label>
                   <label className="input input-bordered flex items-center gap-2">
                     <svg
@@ -147,23 +118,20 @@ const Join = () => {
                       onFocus={() => formik.setFieldTouched("Name", true)}
                       type="text"
                       id="name"
-                      placeholder="name"
                       className="grow placeholder-gray-400 text-sm"
                     />
                   </label>
-                  {formik.errors.Name && formik.touched.Name && (
-                    <span className="text-red-500 mt-2">
-                      {formik.errors.Name}
-                    </span>
-                  )}
+                  <div>
+                    {formik.errors.Name && formik.touched.Name && (
+                      <ErrorShower errMsg={formik.errors.Name} />
+                    )}
+                  </div>
                 </div>
 
                 {/* email part */}
                 <div className="form-control">
                   <label className="label">
-                    <span className="label-text text-lg">
-                      Email <span className="text-red-500">*</span>
-                    </span>
+                    <span className="label-text text-lg">Email</span>
                   </label>
                   <label className="input input-bordered flex items-center gap-2">
                     <svg
@@ -180,23 +148,20 @@ const Join = () => {
                       onFocus={() => formik.setFieldTouched("Email", true)}
                       type="email"
                       id="email"
-                      placeholder="name@domain.com"
                       className="grow placeholder-gray-400 text-sm"
                     />
                   </label>
-                  {formik.errors.Email && formik.touched.Email && (
-                    <span className="text-red-500 mt-2">
-                      {formik.errors.Email}
-                    </span>
-                  )}
+                  <div>
+                    {formik.errors.Email && formik.touched.Email && (
+                      <ErrorShower errMsg={formik.errors.Email} />
+                    )}
+                  </div>
                 </div>
 
                 {/* Phone part */}
                 <div className="form-control">
                   <label className="label">
-                    <span className="label-text text-lg">
-                      Phone Number <span className="text-red-500">*</span>
-                    </span>
+                    <span className="label-text text-lg">Mobile</span>
                   </label>
                   <label className="input input-bordered flex items-center gap-2">
                     <FaPhoneAlt />
@@ -204,23 +169,20 @@ const Join = () => {
                       {...formik.getFieldProps("Phone")}
                       onFocus={() => formik.setFieldTouched("Phone", true)}
                       type="text"
-                      placeholder="01723456789"
                       className="grow placeholder-gray-400 text-sm"
                     />
                   </label>
-                  {formik.errors.Phone && formik.touched.Phone && (
-                    <span className="text-red-500 mt-2">
-                      {formik.errors.Phone}
-                    </span>
-                  )}
+                  <div>
+                    {formik.errors.Phone && formik.touched.Phone && (
+                      <ErrorShower errMsg={formik.errors.Phone} />
+                    )}
+                  </div>
                 </div>
 
                 {/* Pin part */}
                 <div className="form-control relative">
                   <label className="label">
-                    <span className="label-text text-lg">
-                      PIN Number <span className="text-red-500">*</span>
-                    </span>
+                    <span className="label-text text-lg">PIN</span>
                   </label>
                   <label className="input input-bordered flex items-center gap-2">
                     <svg
@@ -239,7 +201,6 @@ const Join = () => {
                       {...formik.getFieldProps("Pin")}
                       onFocus={() => formik.setFieldTouched("Pin", true)}
                       type={showPass ? "text" : "password"}
-                      placeholder="* * * * * * * * * * * *"
                       className="grow placeholder-gray-400 text-sm"
                     />
                     <span
@@ -253,20 +214,17 @@ const Join = () => {
                       )}
                     </span>
                   </label>
-                  {formik.errors.Pin && formik.touched.Pin && (
-                    <span className="text-red-500 mt-2">
-                      {formik.errors.Pin}
-                    </span>
-                  )}
+                  <div>
+                    {formik.errors.Pin && formik.touched.Pin && (
+                      <ErrorShower errMsg={formik.errors.Pin} />
+                    )}
+                  </div>
                 </div>
 
                 {/* Confirm Pin part */}
                 <div className="form-control relative">
                   <label className="label">
-                    <span className="label-text text-lg">
-                      Confirm PIN
-                      <span className="text-red-500"> *</span>
-                    </span>
+                    <span className="label-text text-lg">Confirm PIN</span>
                   </label>
                   <label className="input input-bordered flex items-center gap-2">
                     <svg
@@ -285,7 +243,6 @@ const Join = () => {
                       {...formik.getFieldProps("RepeatPin")}
                       onFocus={() => formik.setFieldTouched("RepeatPin", true)}
                       type={showPass ? "text" : "password"}
-                      placeholder="* * * * * * * * * * * *"
                       className="grow placeholder-gray-400 text-sm"
                     />
                     <span
@@ -299,11 +256,11 @@ const Join = () => {
                       )}
                     </span>
                   </label>
-                  {formik.errors.RepeatPin && formik.touched.RepeatPin && (
-                    <span className="text-red-500 mt-2">
-                      {formik.errors.RepeatPin}
-                    </span>
-                  )}
+                  <div>
+                    {formik.errors.RepeatPin && formik.touched.RepeatPin && (
+                      <ErrorShower errMsg={formik.errors.RepeatPin} />
+                    )}
+                  </div>
                 </div>
 
                 {/* Checkbox for Accept Terms */}
@@ -328,11 +285,11 @@ const Join = () => {
                     Accept All Terms & Conditions
                   </label>
                 </div>
-                {formik.errors.AcceptTerms && formik.touched.AcceptTerms && (
-                  <div className="text-red-500 mt-2">
-                    {formik.errors.AcceptTerms}
-                  </div>
-                )}
+                <div>
+                  {formik.errors.AcceptTerms && formik.touched.AcceptTerms && (
+                    <ErrorShower errMsg={formik.errors.AcceptTerms} />
+                  )}
+                </div>
 
                 <div className="form-control mt-6">
                   <ActionButton buttonText="Join" disabledStat={false} />
