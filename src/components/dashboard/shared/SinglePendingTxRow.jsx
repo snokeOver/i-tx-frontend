@@ -14,12 +14,14 @@ const SinglePendingTxRow = ({ singlePendingTx, index, rowFor }) => {
 
   return (
     <>
-      <tr className="cursor-pointer dark:hover:bg-gray-800 hover:bg-gray-400 hover:scale-[1.02] duration-500">
+      <tr className="cursor-pointer dark:hover:bg-gray-800 hover:bg-gray-400 hover:scale-[1.02] duration-500 text-[11px] lg:text-xs">
         <th>{index + 1}</th>
         <td>{formatDateTime(createdAt)}</td>
-        <td className="flex items-center gap-1">
-          <TbCurrencyTaka className="text-lg" />
-          <span className="text-prime">{amount.toFixed(2)}</span>
+        <td>
+          <div className="flex items-center">
+            <TbCurrencyTaka className="text-lg" />
+            <span className="text-prime">{amount.toFixed(2)}</span>
+          </div>
         </td>
         <td>
           <div className="flex items-center">
@@ -35,7 +37,7 @@ const SinglePendingTxRow = ({ singlePendingTx, index, rowFor }) => {
         </td>
         {rowFor === "Admin" && <td> {userNumber}</td>}
 
-        <td className="min-w-20">
+        <td className="min-w-24">
           <span
             className={`${
               txType === "Cash Out" ? "bg-green-500 " : "bg-blue-400"

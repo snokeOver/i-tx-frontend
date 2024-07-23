@@ -106,6 +106,7 @@ const TransactionFormat = ({
 
       <div className="text-center flex-col max-w-sm mx-auto py-10 h-auto w-full border border-gray-300 dark:border-gray-700 rounded-xl p-7">
         <h3 className="text-xl text-prime mb-2">{pageTitle}</h3>
+
         <form onSubmit={formik.handleSubmit} className="space-y-4">
           {/* Amount part */}
           <div className="form-control">
@@ -228,14 +229,14 @@ const TransactionFormat = ({
 
       {/* Summary Part */}
       <div>
-        <div className="border min-w-2xl border-gray-300 dark:border-gray-700 rounded-xl p-7 flex flex-col gap-3 mx-auto">
+        <div className="border max-w-sm border-gray-300 dark:border-gray-700 rounded-xl p-7 flex flex-col gap-3 mx-auto">
           <h2 className="text-center text-prime text-xl">Summary</h2>
           <div className="grid grid-cols-2 gap-5">
             <h4 className="text-right">Current Balance:</h4>
             <h5 className="text-right">{userDetails?.balance?.toFixed(2)}</h5>
           </div>
           <div className="grid grid-cols-2 gap-5">
-            <h4 className="text-right">Charge:</h4>{" "}
+            <h4 className="text-right">Charge:</h4>
             <h5 className="text-right">{charge?.toFixed(2)}</h5>
           </div>
           <div className="grid grid-cols-2 gap-5 border-t border-gray-300 dark:border-gray-700 pt-1">

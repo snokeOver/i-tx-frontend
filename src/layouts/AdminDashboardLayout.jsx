@@ -6,10 +6,10 @@ const AdminDashboardLayout = () => {
   return (
     <div>
       <Header />
-      <div className="md:flex ">
-        <Sidebar />
-      </div>
-      <div className="flex-1 md:ml-64 md:p-5">
+
+      <Sidebar />
+
+      <div className="flex-1">
         <Outlet />
       </div>
     </div>

@@ -37,7 +37,7 @@ const SingleCompletedTxRow = ({ singleCompletedTx, index, rowFor }) => {
         </td>
         {rowFor === "Admin" && <td> {userNumber}</td>}
 
-        <td className="min-w-20">
+        <td className="min-w-24">
           <span
             className={`${
               txType === "Cash Out" ? "bg-green-500 " : "bg-blue-400"
