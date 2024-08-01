@@ -61,15 +61,6 @@ const Navbar = () => {
   // All the navlinks
   const navItems = (
     <>
-      {/* Home link */}
-      <NavigationLink destination="/" name="Home" nested="false" />
-
-      {/* Home link */}
-      <NavigationLink destination="/about" name="About" nested="false" />
-
-      {/* Home link */}
-      <NavigationLink destination="/contact" name="Contact" nested="false" />
-
       {loading ? (
         <RingLoading />
       ) : (
@@ -94,7 +85,11 @@ const Navbar = () => {
       )}
 
       {/* Survey link */}
-      <NavigationLink destination="/payment" name="Fees" nested="false" />
+      <NavigationLink
+        destination="/fees-limit"
+        name="Fees-Limit"
+        nested="false"
+      />
     </>
   );
 
@@ -204,7 +199,7 @@ const Navbar = () => {
                 <div className="divider my-1"></div>
                 {/* Profile link */}
                 <SubNavLink
-                  destination="/user-profile"
+                  destination="/profile"
                   name="Profile"
                   badgeValue={userDetails?.userRole}
                 />

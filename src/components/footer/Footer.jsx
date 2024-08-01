@@ -1,4 +1,4 @@
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import { FaPhoneAlt } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
@@ -7,10 +7,10 @@ import useData from "../../hooks/useData";
 import { FaMoneyBillTransfer } from "react-icons/fa6";
 
 const Footer = () => {
-  const { siteName, siteLogo } = useData();
+  const { siteName } = useData();
   return (
-    <footer className=" p-10 bg-blue-100 dark:bg-base-100 text-base-content rounded-t-[2rem] md:rounded-t-[3rem] lg:rounded-t-[3.5rem] border-t-[1px] border-primary ">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-10 ">
+    <footer className=" p-10 bg-blue-100 dark:bg-base-100 text-base-content border-t border-primary ">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-10 ">
         {/* First part */}
         <div className=" flex flex-col items-center gap-2">
           {/* Logo and Site Name part */}
@@ -34,38 +34,22 @@ const Footer = () => {
               </a>
               <a className=" cursor-pointer  flex items-center gap-2">
                 <MdEmail className="text-primary" />
-                <span className="hover:text-primary">snokeover@gmail.com</span>
+                <span className="hover:text-primary">
+                  shuvokuetece@gmail.com
+                </span>
               </a>
-            </div>
-            <div>
-              <SocialLinks />
             </div>
           </nav>
         </div>
 
         {/* Second part */}
-        <div className="grid grid-cols-1 md:grid-cols-2 col-span-2 gap-10 md:gap-0">
-          <div className="footer flex justify-center">
-            <nav>
-              <h6 className="footer-title">Company</h6>
-
-              <NavLink className="link link-hover" to="/about">
-                About Us
-              </NavLink>
-              <NavLink className="link link-hover" to="/contact">
-                Contact
-              </NavLink>
-              <NavLink className="link link-hover" to="#">
-                Testimony
-              </NavLink>
-              <NavLink className="link link-hover" to="#">
-                Terms of use
-              </NavLink>
-            </nav>
-          </div>
+        <div className="flex items-center justify-center">
           <div className="footer footer-center">
             {/* Copy Write part */}
-            <aside className="text-xs">
+            <aside className="text-xs flex gap-5 flex-col">
+              <div>
+                <SocialLinks />
+              </div>
               <p>
                 © {siteName} - {new Date().getFullYear()} - All right reserved
               </p>

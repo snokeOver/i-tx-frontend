@@ -72,7 +72,7 @@ const FormWithPhonePin = ({ showPin, setShowPin }) => {
             className="grow placeholder-gray-400 text-sm"
           />
         </label>
-        <div>
+        <div className="text-center">
           {formik.errors.Phone && formik.touched.Phone && (
             <ErrorShower errMsg={formik.errors.Phone} />
           )}
@@ -114,7 +114,7 @@ const FormWithPhonePin = ({ showPin, setShowPin }) => {
             )}
           </span>
         </label>
-        <div>
+        <div className="text-center">
           {formik.errors.Pin && formik.touched.Pin && (
             <ErrorShower errMsg={formik.errors.Pin} />
           )}

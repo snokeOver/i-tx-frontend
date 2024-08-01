@@ -1,9 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import NotFound from "../pages/NotFound";
 import MainLayouts from "../layouts/MainLayouts";
-import Home from "../pages/Home";
-import About from "../pages/About";
-import Contact from "../pages/Contact";
+
 import Join from "../pages/Join";
 import Login from "../pages/Login";
 import PublicRoute from "./PublicRoute";
@@ -24,6 +22,8 @@ import HistoryAgent from "../components/dashboard/agent/HistoryAgent";
 import HistoryUser from "../components/dashboard/user/HistoryUser";
 import MonitorAllTx from "../components/dashboard/admin/MonitorAllTx";
 import AdminStatistics from "../components/dashboard/admin/AdminStatistics";
+import FeesAndLimits from "../pages/FeesAndLimits";
+import Profile from "../pages/Profile";
 // import PrivateRoute from "./PrivateRoute";
 // import ParticipatedSurveys from "../components/dashboard/user/ParticipatedSurveys";
 // import ReportedSurveys from "../components/dashboard/user/ReportedSurveys";
@@ -41,16 +41,12 @@ const router = createBrowserRouter([
     errorElement: <NotFound />,
     children: [
       {
-        path: "/",
-        element: <Home />,
+        path: "/fees-limit",
+        element: <FeesAndLimits />,
       },
       {
-        path: "/about",
-        element: <About />,
-      },
-      {
-        path: "/contact",
-        element: <Contact />,
+        path: "/profile",
+        element: <Profile />,
       },
       {
         path: "/reset-pin",

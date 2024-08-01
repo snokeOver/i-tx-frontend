@@ -92,7 +92,7 @@ const Join = () => {
                     <option value="User">User</option>
                     <option value="Agent">Agent</option>
                   </select>
-                  <div>
+                  <div className="text-center">
                     {formik.errors.Category && formik.touched.Category && (
                       <ErrorShower errMsg={formik.errors.Category} />
                     )}
@@ -121,7 +121,7 @@ const Join = () => {
                       className="grow placeholder-gray-400 text-sm"
                     />
                   </label>
-                  <div>
+                  <div className="text-center">
                     {formik.errors.Name && formik.touched.Name && (
                       <ErrorShower errMsg={formik.errors.Name} />
                     )}
@@ -151,7 +151,7 @@ const Join = () => {
                       className="grow placeholder-gray-400 text-sm"
                     />
                   </label>
-                  <div>
+                  <div className="text-center">
                     {formik.errors.Email && formik.touched.Email && (
                       <ErrorShower errMsg={formik.errors.Email} />
                     )}
@@ -172,7 +172,7 @@ const Join = () => {
                       className="grow placeholder-gray-400 text-sm"
                     />
                   </label>
-                  <div>
+                  <div className="text-center">
                     {formik.errors.Phone && formik.touched.Phone && (
                       <ErrorShower errMsg={formik.errors.Phone} />
                     )}
@@ -214,7 +214,7 @@ const Join = () => {
                       )}
                     </span>
                   </label>
-                  <div>
+                  <div className="text-center">
                     {formik.errors.Pin && formik.touched.Pin && (
                       <ErrorShower errMsg={formik.errors.Pin} />
                     )}
@@ -256,7 +256,7 @@ const Join = () => {
                       )}
                     </span>
                   </label>
-                  <div>
+                  <div className="text-center">
                     {formik.errors.RepeatPin && formik.touched.RepeatPin && (
                       <ErrorShower errMsg={formik.errors.RepeatPin} />
                     )}
@@ -285,7 +285,7 @@ const Join = () => {
                     Accept All Terms & Conditions
                   </label>
                 </div>
-                <div>
+                <div className="text-center">
                   {formik.errors.AcceptTerms && formik.touched.AcceptTerms && (
                     <ErrorShower errMsg={formik.errors.AcceptTerms} />
                   )}

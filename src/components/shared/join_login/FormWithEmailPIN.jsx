@@ -81,7 +81,7 @@ const FormWithEmailPIN = ({ showPin, setShowPin }) => {
             className="grow placeholder-gray-400 text-sm"
           />
         </label>
-        <div>
+        <div className="text-center">
           {formik.errors.Email && formik.touched.Email && (
             <ErrorShower errMsg={formik.errors.Email} />
           )}
@@ -123,7 +123,7 @@ const FormWithEmailPIN = ({ showPin, setShowPin }) => {
             )}
           </span>
         </label>
-        <div>
+        <div className="text-center">
           {formik.errors.Pin && formik.touched.Pin && (
             <ErrorShower errMsg={formik.errors.Pin} />
           )}
