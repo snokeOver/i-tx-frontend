@@ -11,7 +11,7 @@ import UserDashboardLayout from "../layouts/UserDashboardLayout";
 import UserStatistics from "../components/dashboard/user/UserStatistics";
 import AdminDashboardLayout from "../layouts/AdminDashboardLayout";
 import ManageUsers from "../components/dashboard/admin/ManageUsers";
-// import MonitorAllTx from "../components/dashboard/admin/MonitorAllTx";
+
 import CashOut from "../components/dashboard/user/CashOut";
 import AgentDashboardLayout from "../layouts/AgentDashboardLayout";
 import AgentDashboard from "../components/dashboard/agent/AgentDashboard";
@@ -24,15 +24,6 @@ import MonitorAllTx from "../components/dashboard/admin/MonitorAllTx";
 import AdminStatistics from "../components/dashboard/admin/AdminStatistics";
 import FeesAndLimits from "../pages/FeesAndLimits";
 import Profile from "../pages/Profile";
-// import PrivateRoute from "./PrivateRoute";
-// import ParticipatedSurveys from "../components/dashboard/user/ParticipatedSurveys";
-// import ReportedSurveys from "../components/dashboard/user/ReportedSurveys";
-
-// import RequestForSurveyor from "../components/dashboard/user/RequestForSurveyor";
-
-// import UserDashboardLayout from "../layouts/UserDashboardLayout";
-
-// import UserStatistics from "../components/dashboard/user/UserStatistics";
 
 const router = createBrowserRouter([
   {

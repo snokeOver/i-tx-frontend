@@ -1,6 +1,6 @@
 const TableViewStructure = ({ data, tabCols, actionBtnNumbers, children }) => {
   return (
-    <div className="mx-auto px-1 md:px-3">
+    <div className="mx-auto px-1 md:px-3  w-full">
       {data.length > 0 && (
         <div className="card w-full  shadow-2xl bg-base-100">
           {/* Table for cart */}
