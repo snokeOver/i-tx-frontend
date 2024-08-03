@@ -8,13 +8,8 @@ import useAuth from "../../../hooks/useAuth";
 import ErrorShower from "../ErrorShower";
 
 const FormWithEmailPIN = ({ showPin, setShowPin }) => {
-  const {
-    setActnBtnLoading,
-    setToastMsg,
-    userDashboardPath,
-    adminDashboardPath,
-    agentDashboardPath,
-  } = useData();
+  const { setActnBtnLoading, setToastMsg } = useData();
+  const { dashBoardPath } = useAuth();
 
   const { userLogin } = useAuth();
   const navigate = useNavigate();
@@ -35,17 +30,11 @@ const FormWithEmailPIN = ({ showPin, setShowPin }) => {
       try {
         const response = await userLogin(values);
         if (response.res === "Login Success") {
-          setToastMsg("suc Login Successful  !");
-          navigate(
-            `${
-              response.user.userRole === "Admin"
-                ? adminDashboardPath
-                : response.user.userRole === "Agent"
-                ? agentDashboardPath
-                : userDashboardPath
-            }`
-          );
-          setActnBtnLoading(false);
+          setTimeout(() => {
+            setToastMsg("suc Login Successful  !");
+            navigate(`${dashBoardPath}`);
+            setActnBtnLoading(false);
+          }, 1000);
         }
       } catch (err) {
         setToastMsg("err Wrong Credential  !");

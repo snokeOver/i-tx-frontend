@@ -5,9 +5,11 @@ import { MdEmail } from "react-icons/md";
 import SocialLinks from "../shared/SocialLinks";
 import useData from "../../hooks/useData";
 import { FaMoneyBillTransfer } from "react-icons/fa6";
+import useAuth from "../../hooks/useAuth";
 
 const Footer = () => {
   const { siteName } = useData();
+  const { dashBoardPath } = useAuth();
   return (
     <footer className=" p-10 bg-blue-100 dark:bg-base-100 text-base-content border-t border-primary ">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10 ">
@@ -17,7 +19,7 @@ const Footer = () => {
 
           <div>
             <Link
-              to="/"
+              to={dashBoardPath}
               className="text-3xl font-semibold font-rubik flex justify-center flex-col items-center gap-2"
             >
               <div>

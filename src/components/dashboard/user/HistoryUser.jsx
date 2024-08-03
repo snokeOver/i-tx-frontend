@@ -9,6 +9,7 @@ import SinglePendingTxRow from "../shared/SinglePendingTxRow";
 
 const HistoryUser = () => {
   const [status, setStatus] = useState("Pending");
+  const [pagePending, setPagePending] = useState(false);
 
   const {
     data: tenUserTxHistory,
@@ -22,7 +23,12 @@ const HistoryUser = () => {
 
   // Refetch when status change
   useEffect(() => {
-    allPendingRefetch();
+    const refetchData = async () => {
+      setPagePending(true);
+      await allPendingRefetch();
+      setPagePending(false);
+    };
+    refetchData();
   }, [status]);
 
   return (
@@ -40,7 +46,7 @@ const HistoryUser = () => {
       <InitialPageStructure
         pageName="Pending Tx"
         error={tenUserTxHistoryError}
-        isPending={tenUserTxHistoryPending}
+        isPending={tenUserTxHistoryPending || pagePending}
         data={tenUserTxHistory || []}
         emptyDataMsg={`No ${status} Tx To Show!`}
         totalName={`${status} Tx`}

@@ -11,11 +11,26 @@ const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [regiSuccess, setRegiSuccess] = useState(false);
   const [tokenSaved, setTokenSaved] = useState(false);
+  const [dashBoardPath, setDashboardPath] = useState("");
 
   const [userDetails, setUserDetails] = useState({
     userRole: "",
     status: "",
   }); //Initially should be null
+
+  // set the dashboard path according to user role
+  useEffect(() => {
+    if (userDetails.userRole) {
+      const path =
+        userDetails.userRole === "Admin"
+          ? "/dashboard/admin"
+          : userDetails.userRole === "Agent"
+          ? "/dashboard/agent"
+          : "/dashboard";
+
+      setDashboardPath(path);
+    }
+  }, [userDetails]);
 
   // Log out User
   const logOut = () => {
@@ -42,7 +57,7 @@ const AuthProvider = ({ children }) => {
       return { res: "Login Failed" };
     }
   };
-  // console.log(userDetails);
+  // console.log(dashBoardPath);
 
   // Refetch user Data
   const refetchUserDetails = async (payload) => {
@@ -83,6 +98,7 @@ const AuthProvider = ({ children }) => {
     setUserDetails,
     userLogin,
     refetchUserDetails,
+    dashBoardPath,
   };
   return (
     <AuthContext.Provider value={authItems}>{children}</AuthContext.Provider>

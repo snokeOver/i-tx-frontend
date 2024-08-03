@@ -9,6 +9,7 @@ import SinglePendingTxRow from "../shared/SinglePendingTxRow";
 
 const MonitorAllTx = () => {
   const [status, setStatus] = useState("Completed");
+  const [pagePending, setPagePending] = useState(false);
 
   const {
     data: twentyAgentTxHistory,
@@ -22,7 +23,12 @@ const MonitorAllTx = () => {
 
   // Refetch when status change
   useEffect(() => {
-    allPendingRefetch();
+    const refetchData = async () => {
+      setPagePending(true);
+      await allPendingRefetch();
+      setPagePending(false);
+    };
+    refetchData();
   }, [status]);
 
   return (
@@ -40,7 +46,7 @@ const MonitorAllTx = () => {
       <InitialPageStructure
         pageName="Pending Tx"
         error={twentyAgentTxHistoryError}
-        isPending={twentyAgentTxHistoryPending}
+        isPending={twentyAgentTxHistoryPending || pagePending}
         data={twentyAgentTxHistory || []}
         emptyDataMsg={`No ${status} Tx To Show!`}
         totalName={`${status} Tx`}

@@ -9,6 +9,7 @@ import SingleCompletedTxRow from "../shared/SingleCompletedTxRow";
 const HistoryAgent = () => {
   const [toggle, setToggle] = useState(false);
   const [status, setStatus] = useState("Completed");
+  const [pagePending, setPagePending] = useState(false);
 
   const toggleHandler = (e) => {
     setToggle(e.target.checked);
@@ -18,7 +19,7 @@ const HistoryAgent = () => {
     data: twentyAgentTxHistory,
     isPending: twentyAgentTxHistoryPending,
     error: twentyAgentTxHistoryError,
-    refetch: allPendingRefetch,
+    refetch: twentyAgentTxHistoryRefetch,
   } = useGetData({
     apiRoute: "agent-tx-history",
     additionalQuerry: `status=${status}`,
@@ -26,7 +27,12 @@ const HistoryAgent = () => {
 
   // Refetch when status change
   useEffect(() => {
-    allPendingRefetch();
+    const refetchData = async () => {
+      setPagePending(true);
+      await twentyAgentTxHistoryRefetch();
+      setPagePending(false);
+    };
+    refetchData();
   }, [status]);
 
   // Handle toggle
@@ -48,7 +54,7 @@ const HistoryAgent = () => {
       <InitialPageStructure
         pageName="Pending Tx"
         error={twentyAgentTxHistoryError}
-        isPending={twentyAgentTxHistoryPending}
+        isPending={twentyAgentTxHistoryPending || pagePending}
         data={twentyAgentTxHistory || []}
         emptyDataMsg={`No ${toggle ? " Rejected" : "Completed"} Tx To Show!`}
         totalName={`${toggle ? "Rejected" : "Completed"} Tx`}

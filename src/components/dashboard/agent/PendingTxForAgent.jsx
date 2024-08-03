@@ -18,6 +18,7 @@ const PendingTxForAgent = () => {
   const [openModal, setOpenModal] = useState(false);
   const [currentData, setCurrentData] = useState({});
   const [option, setOption] = useState("Pending");
+  const [pagePending, setPagePending] = useState(false);
 
   const updateTxRequest = useUpdateData();
 
@@ -37,7 +38,12 @@ const PendingTxForAgent = () => {
 
   // Refetch history data when type(cash out /cash in) change
   useEffect(() => {
-    allPendingRefetch();
+    const refetchData = async () => {
+      setPagePending(true);
+      await allPendingRefetch();
+      setPagePending(false);
+    };
+    refetchData();
   }, [type]);
 
   // Handle toggle
@@ -92,7 +98,7 @@ const PendingTxForAgent = () => {
       <InitialPageStructure
         pageName="Pending Tx"
         error={allPendingTxError}
-        isPending={pendingTxPending}
+        isPending={pendingTxPending || pagePending}
         data={allPendingTx || []}
         emptyDataMsg={`No Pending Cash${
           toggle ? " In" : "Out"

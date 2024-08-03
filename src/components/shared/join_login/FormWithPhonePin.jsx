@@ -9,16 +9,11 @@ import { useNavigate } from "react-router-dom";
 import ErrorShower from "../ErrorShower";
 
 const FormWithPhonePin = ({ showPin, setShowPin }) => {
-  const { userLogin } = useAuth();
+  const { userLogin, dashBoardPath } = useAuth();
+
   const navigate = useNavigate();
 
-  const {
-    setActnBtnLoading,
-    setToastMsg,
-    userDashboardPath,
-    adminDashboardPath,
-    agentDashboardPath,
-  } = useData();
+  const { setActnBtnLoading, setToastMsg } = useData();
 
   // Initial values for the form and formik
   const initialValues = {
@@ -36,17 +31,11 @@ const FormWithPhonePin = ({ showPin, setShowPin }) => {
       try {
         const response = await userLogin(values);
         if (response.res === "Login Success") {
-          setToastMsg("suc Login Successful  !");
-          navigate(
-            `${
-              response.user.userRole === "Admin"
-                ? adminDashboardPath
-                : response.user.userRole === "Agent"
-                ? agentDashboardPath
-                : userDashboardPath
-            }`
-          );
-          setActnBtnLoading(false);
+          setTimeout(() => {
+            setToastMsg("suc Login Successful  !");
+            navigate(`${dashBoardPath}`);
+            setActnBtnLoading(false);
+          }, 1000);
         }
       } catch (err) {
         setToastMsg("err Wrong Credentials  !");

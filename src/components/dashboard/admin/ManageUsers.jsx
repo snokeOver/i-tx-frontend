@@ -9,6 +9,7 @@ import useAuth from "../../../hooks/useAuth";
 import useData from "../../../hooks/useData";
 import { IoIosSearch } from "react-icons/io";
 import PrimaryButton from "../../shared/PrimaryButton";
+import TableSkeleton from "../../shared/TableSkeleton";
 
 const ManageUsers = () => {
   const updateUserRole = useUpdateData();
@@ -30,9 +31,16 @@ const ManageUsers = () => {
     additionalQuerry: `userRole=${currUserStatus}&search=${search}`,
   });
 
+  const [pagePending, setPagePending] = useState(false);
+
   // Refetch data when currentPage or itemsPerPage changes
   useEffect(() => {
-    refetchUsers();
+    const refetchData = async () => {
+      setPagePending(true);
+      await refetchUsers();
+      setPagePending(false);
+    };
+    refetchData();
   }, [currUserStatus, search]);
 
   // handle the Update initiation
@@ -148,22 +156,26 @@ const ManageUsers = () => {
       </div>
 
       {/* Table section */}
-      <TableViewStructure
-        data={allUsers || []}
-        tabCols={["Email", "Name", "Mobile No.", "Role", "Status"]}
-        actionBtnNumbers={2}
-      >
-        {allUsers &&
-          allUsers.map((singleUser, index) => (
-            <SingleUserRow
-              index={index}
-              key={singleUser._id}
-              singleUser={singleUser}
-              handleUpdateStatusInitiate={handleUpdateStatusInitiate}
-              handleUpdateUserStatus={handleUpdateUserStatus}
-            />
-          ))}
-      </TableViewStructure>
+      {pagePending ? (
+        <TableSkeleton />
+      ) : (
+        <TableViewStructure
+          data={allUsers || []}
+          tabCols={["Email", "Name", "Mobile No.", "Role", "Status"]}
+          actionBtnNumbers={2}
+        >
+          {allUsers &&
+            allUsers.map((singleUser, index) => (
+              <SingleUserRow
+                index={index}
+                key={singleUser._id}
+                singleUser={singleUser}
+                handleUpdateStatusInitiate={handleUpdateStatusInitiate}
+                handleUpdateUserStatus={handleUpdateUserStatus}
+              />
+            ))}
+        </TableViewStructure>
+      )}
 
       {/* modal to update User Role */}
       <dialog className={`modal ${openModal ? "modal-open" : ""} `}>

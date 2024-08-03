@@ -15,7 +15,7 @@ const Profile = () => {
           </div>
         </div>
         <form>
-          <div className="card bg-base-200 card-compact my-8  lg:w-1/2 mx-auto shadow-xl rounded-md ">
+          <div className="card bg-base-200 card-compact my-8  lg:w-1/2 mx-auto shadow-xl rounded-md p-5">
             {/* Email section */}
             <div className=" card-body grid grid-cols-3 px-5 items-center gap-4 ">
               <h3>Your Email:</h3>
@@ -24,10 +24,25 @@ const Profile = () => {
                   name="email"
                   readOnly
                   type="text"
-                  placeholder={userDetails.email || "< Private_Email >"}
+                  placeholder={userDetails.email}
                   className="input input-md w-full max-w-xs  "
                 />
-                <FaLock className="text-lg absolute right-5 bottom-4 sm:right-20 md:right-48 lg:right-5 xl:right-24 2xl:right-48" />
+                <FaLock className="text-lg absolute left-44 md:left-64 top-3" />
+              </div>
+            </div>
+
+            {/* Mobile section */}
+            <div className=" card-body grid grid-cols-3 px-5 items-center gap-4 ">
+              <h3>Your Mobile Number:</h3>
+              <div className="relative col-span-2">
+                <input
+                  name="mobile"
+                  readOnly
+                  type="text"
+                  placeholder={userDetails.mobile}
+                  className="input input-md w-full max-w-xs  "
+                />
+                <FaLock className="text-lg absolute left-44 md:left-64 top-3" />
               </div>
             </div>
 
@@ -42,29 +57,38 @@ const Profile = () => {
                   placeholder={formatDateTime(userDetails.createTime)}
                   className="input input-md w-full max-w-xs  "
                 />
-                <FaLock className="text-lg absolute right-5 bottom-4 sm:right-20 md:right-48 lg:right-5 xl:right-24 2xl:right-48" />
+                <FaLock className="text-lg absolute left-44 md:left-64 top-3" />
               </div>
             </div>
 
-            <div className="card-body grid grid-cols-3 px-5 items-center gap-4 ">
-              <h3>Your Name:</h3>
-              <input
-                name="name"
-                type="text"
-                placeholder={userDetails?.name}
-                className="input col-span-2   input-md w-full max-w-xs "
-              />
+            {/* Name section */}
+            <div className=" card-body grid grid-cols-3 px-5 items-center gap-4 ">
+              <h3>Name:</h3>
+              <div className="relative col-span-2">
+                <input
+                  name="name"
+                  readOnly
+                  type="text"
+                  placeholder={userDetails.name}
+                  className="input input-md w-full max-w-xs  "
+                />
+                <FaLock className="text-lg absolute left-44 md:left-64 top-3" />
+              </div>
             </div>
 
-            {/* Balance */}
-            <div className="card-body grid grid-cols-3 px-5 items-center gap-4 ">
-              <h3>Balance</h3>
-              <input
-                name="name"
-                type="text"
-                placeholder={userDetails?.balance}
-                className="input col-span-2   input-md w-full max-w-xs "
-              />
+            {/* Balance section */}
+            <div className=" card-body grid grid-cols-3 px-5 items-center gap-4 ">
+              <h3>Balance:</h3>
+              <div className="relative col-span-2">
+                <input
+                  name="balance"
+                  readOnly
+                  type="text"
+                  placeholder={userDetails.balance}
+                  className="input input-md w-full max-w-xs  "
+                />
+                <FaLock className="text-lg absolute left-44 md:left-64 top-3" />
+              </div>
             </div>
           </div>
         </form>

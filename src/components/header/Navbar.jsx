@@ -12,15 +12,9 @@ import { FaMoneyBillTransfer } from "react-icons/fa6";
 import { useEffect, useState } from "react";
 
 const Navbar = () => {
-  const {
-    pageLoading,
-    setToastMsg,
-    userDashboardPath,
-    adminDashboardPath,
-    agentDashboardPath,
-  } = useData();
+  const { pageLoading, setToastMsg } = useData();
 
-  const { loading, userDetails, logOut } = useAuth();
+  const { loading, userDetails, logOut, dashBoardPath } = useAuth();
   const navigate = useNavigate();
   const [showBalance, setShowBalance] = useState(false);
 
@@ -69,13 +63,7 @@ const Navbar = () => {
             <>
               {/* Dashboard link */}
               <NavigationLink
-                destination={`${
-                  userDetails.userRole === "Admin"
-                    ? adminDashboardPath
-                    : userDetails.userRole === "Agent"
-                    ? agentDashboardPath
-                    : userDashboardPath
-                }`}
+                destination={`${dashBoardPath}`}
                 name="Dashboard"
                 nested="false"
               />
@@ -125,7 +113,7 @@ const Navbar = () => {
         <div>
           <NavLink
             className="text-3xl font-semibold font-rubik flex items-center justify-center"
-            to="/"
+            to={dashBoardPath}
           >
             <FaMoneyBillTransfer className="w-10 h-10 md:w-14 md:h-14  mr-1" />
 
@@ -205,16 +193,7 @@ const Navbar = () => {
                 />
 
                 {/* Dashboard link */}
-                <SubNavLink
-                  destination={`${
-                    userDetails.userRole === "Admin"
-                      ? adminDashboardPath
-                      : userDetails.userRole === "Agent"
-                      ? agentDashboardPath
-                      : userDashboardPath
-                  }`}
-                  name="Dashboard"
-                />
+                <SubNavLink destination={`${dashBoardPath}`} name="Dashboard" />
 
                 <li
                   onClick={handleLogOut}
