@@ -115,7 +115,7 @@ const Navbar = () => {
             className="text-3xl font-semibold font-rubik flex items-center justify-center"
             to={dashBoardPath}
           >
-            <FaMoneyBillTransfer className="w-10 h-10 md:w-14 md:h-14  mr-1" />
+            <FaMoneyBillTransfer className="w-10 h-10 md:w-14 md:h-14  mr-1 hidden lg:flex" />
 
             <div className="hidden md:flex ">
               <SiteName />
@@ -179,10 +179,12 @@ const Navbar = () => {
                     <span>
                       <TbCurrencyTaka />
                     </span>
-                    <span className="text-prime">{userDetails.balance}</span>
+                    <span className="text-prime">
+                      {userDetails.balance.toFixed(2)}
+                    </span>
                   </h3>
                   <h3> {userDetails.name}</h3>
-                  <h3 className="mt-1">{userDetails.email}</h3>
+                  <h3 className="mt-1">{userDetails.mobile}</h3>
                 </div>
                 <div className="divider my-1"></div>
                 {/* Profile link */}

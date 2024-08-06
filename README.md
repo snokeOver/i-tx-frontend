@@ -1,4 +1,5 @@
 <h1>i-Tx</h1>
+<p>A Mobile Financial Service System</p>
 
 <h2>Proceed To Run On Your Local</h2>
 

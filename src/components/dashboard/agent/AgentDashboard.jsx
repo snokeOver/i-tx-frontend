@@ -16,6 +16,7 @@ const AgentDashboard = () => {
                 properly !
               </h2>
             )}
+            <p>Dashboard is Updating !</p>
           </div>
         </div>
       </Container>
